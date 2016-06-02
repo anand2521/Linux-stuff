@@ -1,0 +1,181 @@
+#+Title: OpenVZ Introduction and basic commands 
+#+Author: Ashay Maheshwari
+#+Date: June 2, 2016
+
+* Introduction 
++ OpenVZ is free open source software.
++ OpenVZ is a container-based virtualization for Linux. 
++ OpenVZ creates multiple secure, isolated Linux containers(Virtual Private
+  Servers) on a single physical server. 
++ Provides better server utilization and ensures that applications do not
+  conflict.
++ Each container performs and executes exactly like a stand-alone server; a container can be rebooted independently and have root
+access, users, IP addresses, memory, processes, files, applications, system
+libraries and configuration files.
+
+* Basic operations on containers
+** List containers 
+vzlist command will list all running containers created till now. FLAG -a will
+list all stopped and running containers.
+#+BEGIN_SRC command 
+# vzlist // lists all running containers
+# vzlist -a  // lists stopped as well as running containers
+#+END_SRC
+Sample execution is given below -
+#+BEGIN_SRC command 
+vzlist -a
+     CTID      NPROC STATUS  IP_ADDR         HOSTNAME                        
+      101         10 running 10.101.66.101   server101.mydomain.com
+      102          - stopped 10.101.66.102   server102.mydomain.com                         
+      103          5 running 10.101.66.103   server103.mydomain.com
+#+END_SRC 
+
+** List available templates 
+Every container should have a template of an OS. Templates for widely used
+linux distributions are easuly available for downloads. Check the list of your
+templates using command below -
+#+BEGIN_SRC command
+# ls /vz/template/cache/
+centos-4-x86.tar.gz       fedora-7-x86.tar.gz     suse-10.3-x86.tar.gz
+centos-4-x86_64.tar.gz    fedora-7-x86_64.tar.gz  suse-10.3-x86_64.tar.gz
+centos-5-x86.tar.gz       fedora-8-x86.tar.gz     ubuntu-7.10-x86.tar.gz
+centos-5-x86_64.tar.gz    fedora-8-x86_64.tar.gz  ubuntu-7.10-x86_64.tar.gz
+debian-3.1-x86.tar.gz     fedora-9-x86.tar.gz     ubuntu-8.04-x86.tar.gz
+debian-4.0-x86.tar.gz     fedora-9-x86_64.tar.gz  ubuntu-8.04-x86_64.tar.gz
+debian-4.0-x86_64.tar.gz
+#+END_SRC
+To add a new template, just download and save it in directory /vz/template/cache/
+
+** Creating a container 
++ Every container has a unique ID called Container ID (CTID)
++ CTID 0-100 are reserved and 0 is reserved for host machine and should not be used.
++ Every container uses an OS template
++ Check that you host machine is accessible over network.
++ IP Address of container and host machine should be of same network
+
+*** Steps 
++ Check for a free CTID  ::
+#+BEGIN_SRC command
+vzlist -a <CTID>
+#+END_SRC
+If you get "Container not found" message, you can use that CTID.
++ Choose a template :: Pick up a template of you choice. 
++ Create a container :: 
+#+BEGIN_SRC command
+vzctl create <CTID> --ostemplate <template-name-without-extension>
+vzctl create 101 --ostemplate centos-5-x86 
+#+END_SRC
++ Confirm that your container was created ::
+#+BEGIN_SRC  command
+vzlist -a <CTID>
+#+END_SRC
+
+** Configure a container
+Configuring a container includes -
++ Setting up a network parameters like IP
++ Creating users and passwords in containers
++ Changing Disk space and RAM 
++ Setting up startup parameters
++ "vzctl set" command is used to configure containers. 
+*** Set startup parameters
+#+BEGIN_SRC command
+# vzctl set 101 --onboot yes --save
+Saved parameters for CT 101
+#+END_SRC
+*** Set network parameters
+#+BEGIN_SRC command
+# vzctl set 101 --hostname server101.mydomain.com --save
+Set hostname: server101.mydomain.com
+Saved parameters for CT 101
+
+# vzctl set 101 --ipadd 10.0.186.1 --save
+Adding IP address(es): 10.0.186.1
+Saved parameters for CT 101
+
+# vzctl set 101 --nameserver 192.168.1.165 --save
+File resolv.conf was modified
+Saved parameters for CT 101
+#+END_SRC
+
+flag --save instructs vzctl to save changes in the configuration file otherwise
+changes will be lost once container is restarted.
+
+*** Set root password for containers
+#+BEGIN_SRC command
+# vzctl set 101 --userpasswd root:test
+#+END_SRC
+
+*** Set name of a container 
+#+BEGIN_SRC command 
+# vzctl set 101 --name computer1 --save
+Name computer1 assigned
+Saved parameters for Container 101
+#+END_SRC
+*** Disable a container 
+#+BEGIN_SRC command
+# vzctl set 101 --disabled yes --save
+#+END_SRC
+** Execute commands inside a container 
+  "vzctl exec" command is used to execute command execute a shell command inside
+a container sitting at host machine.
+#+BEGIN_SRC command
+# vzctl exec 101 service sshd status
+sshd is stopped
+# vzctl exec 101 service sshd start
+Starting sshd: [ OK ]
+# vzctl exec 101 service sshd status
+sshd (pid 3801) is running...
+#+END_SRC
+** Start, stop, restart, destroy a container
+#+BEGIN_SRC command
+# vzctl start <CTID>
+# vzctl stop <CTID>
+# vzctl restart <CTID>
+# vzctl destroy <CTID>
+#+END_SRC
+** Check status of a container 
+#+BEGIN_SRC command
+# vzctl status 101
+CTID 101 exist mounted running
+#+END_SRC
+
+* Configuration files of openvz
++ /vz/template/cache/ :: 
+This directory contains all the available templates.
++ /vz/private/ ::
+This directory contains the private area of all containers. For example
+container with CTID 101 will have its complete file structure in
+/vz/private/101/
++ /etc/vz/vz.conf ::
+This file contains the default configuration to be used for every container
+created.
++ /proc/vz/veinfo ::
+This file contains all status of all containers running currently on hardware
+node.
++ /etc/vz/conf/ ::
+This directory contains the configuration of all containers created. For
+example, container with CTID 101 will have a file called in 101.conf in this
+directory, with all the configuration.
+
+* Advanced operations on containers 
+** Migration of container  
+Migrate a container from one host machine to another. Host machine should have
+ssh-key based access to destination host machine. 
+#+BEGIN_SRC command
+#vzmigrate -v --remove-area no IP_base_machine CTID
+#+END_SRC
+--remove-area flag ask, whether to remove private area of container from host
+  machine. 
+** Cloning a container 
+Cloning a container can be done using sequence of commands.
+#+BEGIN_SRC command 
+ OLDVE=222 NEWVE=333 # Just an example
+# vzctl stop $OLDVE
+# mkdir /vz/root/$NEWVE
+# cp /etc/vz/conf/$OLDVE.conf /etc/vz/conf/$NEWVE.conf
+# mkdir /vz/private/$NEWVE
+# pushd /vz/private/$OLDVE; tar c --numeric-owner * | tar x --numeric-owner -C /vz/private/$NEWVE; popd
+# vi /etc/vz/conf/$NEWVE.conf # Change the IP_ADDRESS
+# vzctl start $NEWVE; vzctl start $OLDVE
+#+END_SRC
+
