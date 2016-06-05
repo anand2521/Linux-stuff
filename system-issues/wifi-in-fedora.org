@@ -1,0 +1,103 @@
+#+Title: Setting up manual wifi in Fedora 
+#+Date: June 2, 2016
+#+Author: Ashay Maheshwari
+
+* Problem defination
+I installed Fedora 23 in my Laptop, but was unable to find WiFi connection. I
+had a wireless interface visible using ifconfig command, and had driver
+installed. Still was not able to connect.
+
+* Solution 
+I managed a temporary solution to this problem. This solution is only
+applicable if you have WiFi interface and drivers installed. 
+
+** Steps 
+1. Check if you have a wireless interface or not. It should be listed out with
+   name wl*
+#+BEGIN_SRC command 
+VLEAD@localhost ashay $ ifconfig -a 
+enp9s0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 10.2.58.141  netmask 255.255.252.0  broadcast 10.2.59.255
+        inet6 fe80::62eb:69ff:fe5d:a6d0  prefixlen 64  scopeid 0x20<link>
+        ether 60:eb:69:5d:a6:d0  txqueuelen 1000  (Ethernet)
+        RX packets 31995  bytes 32802759 (31.2 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 18813  bytes 1981302 (1.8 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 0  (Local Loopback)
+        RX packets 3425  bytes 281648 (275.0 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 3425  bytes 281648 (275.0 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlp3s0: flags=4098<BROADCAST,MULTICAST>  mtu 1500
+        inet 10.2.59.224  netmask 255.255.252.0  broadcast 10.2.59.255
+        ether f0:7b:cb:a1:17:6f  txqueuelen 1000  (Ethernet)
+        RX packets 14287  bytes 11445604 (10.9 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 12163  bytes 2065920 (1.9 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+#+END_SRC
+
+2. Check if you have a wireless driver or not. Example execution is given below. 
+#+BEGIN_SRC command
+root@localhost ~]# lspci | grep -i wireless
+03:00.0 Network controller: Realtek Semiconductor Co., Ltd. RTL8191SEvB Wireless LAN Controller (rev 10)
+#+END_SRC
+
+3. Construct a init script in /etc/sysconfig/network-scripts/ if the device
+   name. Change it according to your network config.
+#+BEGIN_SRC  command 
+# /etc/sysconfig/network-scripts/wlp3s0
+NAME="wlp3s0"
+DEVICE=wlp3s0
+HWADDR=64:66:B5:EA:13:11
+IPV4_FAILURE_FATAL=no
+BOOTPROTO=static
+TYPE=Wireless
+DEFROUTE=yes
+ONBOOT=yes
+IPADDR=172.16.1.62
+GATEWAY=172.16.1.1
+NETMASK=255.255.255.0
+IPV4_FAILURE_FATAL=no
+MODE=Managed
+ESSID="sucasa"
+WPA_ALLOW_WPA=yes
+WPA_ALLOW_WPA2=yes
+KEY_MGMT=WPA-PSK
+PEERROUTES=yes
+IPV6INIT=no
+IPV6_FAILURE_FATAL=no
+USERCTL=no
+NM_CONTROLLED=no
+#+END_SRC
+
+
+4. Bring up the wireless interface
+#+BEGIN_SRC command
+[root@localhost ~]# ifconfig wlp3s0 up
+#+END_SRC
+
+5. Create a WPA configuration file. Here replace connectify-me with your SSID and badpassword with your password. 
+#+BEGIN_SRC command
+wpa_passphrase conectify-me badpassword >testwpa.conf
+#+END_SRC  
+
+6. Initiate the connection
+#+BEGIN_SRC command
+wpa_supplicant -Dwext -iwlp3s0 -c ./testwpa.conf 
+#+END_SRC
+
+7. Get an address over DHCP
+#+BEGIN_SRC command
+dhclient -r
+dhclient wlp3s0
+#+END_SRC 
+
+8. FINISH. Your wifi should be working now.
