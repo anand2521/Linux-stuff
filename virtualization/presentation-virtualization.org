@@ -1,0 +1,71 @@
+#+Title: Virtualization Presentation
+#+Date: May 19, 2016
+#+Author: System's team
+
+
+* Virtualization
+** Why do we use Virtualization ? 
+1. Reduce power consumption and air conditioning needs.
+2. Trim building space 
+3. Run multiple machines in a single physical machine.
+4. Run multiple operating systems on single operating systems.
+
+[[./images/funny-virtualization1.jpg]]
+
+5. Easy backups and recovery
+6. Maximum utilization of hardware resources
+
+
+[[./images/virtualization-diff.png]]
+
+** What is Virtualization ?
+   Virtualization is a combination of software and hardware engineering that
+   creates Virtual Machines (VMs) - an abstraction of the computer hardware that
+   allows a single machine to act as if it where many machines. \\
+ 
+[[./images/virtualization.png]]
+
+Well known examples of Virtualization
++ Disk partition  
+
+** When to use Virtualization ? 
+Most of the points mentioned in the section =Why= are good enough to 
+show when to use virtualization.
++ In your desktop, you want to run one OS over other
++ You want to create simple cloud cluster in your machine.
++ Test your application in different system environments.
+
+** How to implement Virtualization ? 
+This needs technical understanding and expertise.  
+
+*** Scenarios 
++ I want to run Linux over Windows or vice versa.
++ I have a Powerful server machine with 6 TB HDD and 128 GB of RAM. But that is
+  underutilized.
+
+*** Hypervisors 
+An important software which allows Physical machines to share their resources
+among virtual machines 
++ Type 1 Hypervisor ::
+It is also called Bare metal hypervisor. \\ 
+\\
+/Examples - Microsoft's Hyper-V, Citrix XenServer, Wind River, OpenSolaris, and VMware's ESX/
+[[./images/bare-metal.jpg]] \\
+
++ Type 2 Hypervisor ::
+Also called hosted hypervisor. It is installed above an existing 
+OS. \\
+ \\
+/Examples - Parallel Inc.'s Virtuozzo, Sun VirtualBox, MEDV, Microsoft Virtual PC, VMWare Workstation/
+[[./images/hosted-hypervisor.png]]
+
+** Story
+There was a time when each citizen(the OS) of the city(the Datacenter) was
+roaming around and doing his business in his own car (the physical
+server). Most of the cars were some big SUVs with big engines, consuming too
+much and offering too much space and power than what one person would need. One
+day, some smart guys (IBM) decided it will be much more efficient to put all
+those citizens in a bus(host physical server) driven by an experienced
+driver(the hypervisor); there they can share the power of the big engine, the
+storage space and they can talk to each other faster.
+
