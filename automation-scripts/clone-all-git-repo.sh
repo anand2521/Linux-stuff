@@ -1,6 +1,6 @@
 #!/bin/sh
 #Author - Ashay Maheshwari
-#Purpose - To clone all public github repositories of a github user 
+#Purpose - To clone all public github repositories of a github user. 
 
 USER=ashay-maheshwari;                   #Initialize the username or organization name 
 REPO_PATH="/root/deleteme"               #Give the base path where every repository is cloned 
