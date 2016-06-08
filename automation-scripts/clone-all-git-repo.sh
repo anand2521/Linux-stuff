@@ -4,11 +4,11 @@
 
 
 USAGE () {
-echo ""
-echo -e "ERROR      :  `date`  : Expects one argument. Please execute as given below \n"
-echo    "EXECUTION  :  `date`  : sh clone-repo.sh git-username"
-echo    "EXECUTION  :  `date`  : sh clone-repo.sh git-organization-name"
-echo ""
+ echo ""
+ echo -e "ERROR      :  `date`  : Expects one argument. Please execute as given below \n"
+ echo    "EXECUTION  :  `date`  : sh clone-repo.sh git-username"
+ echo    "EXECUTION  :  `date`  : sh clone-repo.sh git-organization-name"
+ echo ""
 }
 
 
