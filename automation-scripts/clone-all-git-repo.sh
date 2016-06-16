@@ -43,6 +43,7 @@ cd $BKP_DIR
 cat $BKP_DIR/$URL_TO_CLONE | while read url 
 do 
    git clone $url
+   sleep 5m
    echo ""                                #Just for a blank line             
 done 
 
