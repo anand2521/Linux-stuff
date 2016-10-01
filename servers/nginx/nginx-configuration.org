@@ -1,0 +1,87 @@
+#+Title: Understand basic nginx configuration terms 
+#+Author: Aashay Maheshwari
+#+Date: saturday, October 1, 2016
+
+* Introduction 
+  This document will store basic confiuration terms and other
+  important things required to configure a nginx web server.
+
+* Location of configuration files 
+  Based on the Linux flavor and way of installation, configuration
+  file of nginx can be found in the following locations -
+  #+BEGIN_SRC command
+  1. /etc/nginx/nginx.conf
+  2. /usr/local/nginx/conf/nginx.conf 
+  3. /usr/local/etc/nginx/nginx.conf
+  #+END_SRC
+
+* Contexts
+  Configuration file is arranged in a tree like structure defined by
+  set of brackets {} or blocks which have a configuration for a
+  context.  Hence a single configuration file can have multiple such
+  blocks(contexts).
+
+* Understanding how nginx works 
+** The Directives
+   + File excerpt /etc/nginx/nginx.conf ::
+    #+BEGIN_SRC command
+    user www-data;
+    worker_processes 4;
+    pid /run/nginx.pid;
+
+    events {
+          worker_connections 768;
+          # multi_accept on;
+    }
+    #+END_SRC
+   + user ::
+     Defines which Linux system user will own and run the Nginx server.
+   + worker_process ::
+     Defines how many threads, or simultaneous instances, of Nginx to run.
+
+** The HTTP configuration
+   + File excerpt /etc/nginx/nginx.conf ::
+     #+BEGIN_SRC command
+     http {
+
+    ##
+    # Basic Settings
+    ##
+
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+    # server_tokens off;
+
+    # server_names_hash_bucket_size 64;
+    # server_name_in_redirect off;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    ##
+    # Logging Settings
+    ##
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    ##
+    # Gzip Settings
+    ##
+
+    gzip on;
+    gzip_disable "msie6";
+     #+END_SRC 
+   + include /etc/nginx/mime.types; ::
+     + This includes the file mime.types. 
+     + This means is that anything written in the file mime.types is
+       interpreted as if it was written inside the http { } block.
+     + 
+     
+* Reference 
+  + [[https://www.digitalocean.com/community/tutorials/understanding-the-nginx-configuration-file-structure-and-configuration-contexts][Digital Ocean Nginx]]
+  + [[https://www.linode.com/docs/websites/nginx/how-to-configure-nginx][Linode]]
+  + [[http://www.freeformatter.com/mime-types-list.html][Freeformatter MIME types]]
