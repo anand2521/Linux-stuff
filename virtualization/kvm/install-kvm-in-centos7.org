@@ -82,7 +82,7 @@ current kernel and turns our Linux machine into a hypervisor.
     ----------------------------------------------------
     3     alice                          running
     #+END_SRC
-  + virsh help 
+  + virsh help ::
     #+BEGIN_SRC command
     virsh help [command name]
     [aashay@localhost kvm]$ virsh help pool
@@ -107,18 +107,31 @@ current kernel and turns our Linux machine into a hypervisor.
     pool-undefine                  undefine an inactive pool
     pool-uuid                      convert a pool name to pool UUID
     #+END_SRC		 
-  + Quit and exit
+  + Quit and exit ::
     #+BEGIN_SRC command
     virsh quit
     virsh exit
     #+END_SRC
-  + virsh version
+  + virsh version ::
     #+BEGIN_SRC command
     [aashay@localhost kvm]$ virsh version
 Compiled against library: libvirt 1.2.17
 Using library: libvirt 1.2.17
 Using API: QEMU 1.2.17
 Running hypervisor: QEMU 1.5.3
+
+    #+END_SRC
+  + Obtain the nodeinfo ::
+    #+BEGIN_SRC command
+    [aashay@localhost kvm]$ virsh nodeinfo
+CPU model:           x86_64
+CPU(s):              4
+CPU frequency:       2399 MHz
+CPU socket(s):       1
+Core(s) per socket:  2
+Thread(s) per core:  2
+NUMA cell(s):        1
+Memory size:         3676588 KiB
 
     #+END_SRC
 * References
