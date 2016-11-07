@@ -1,0 +1,89 @@
+#+Title: Install KVM in centos 7
+#+Date: November 7, 2016
+#+Author: Ashay Maheshwari
+
+* Introduction 
+KVM is an open source hardware virtualization software through which
+we can create and run multiple Linux based and windows based virtual
+machines simultaneously. KVM is known as Kernel based Virtual Machine
+because when we install KVM package then KVM module is loaded into the
+current kernel and turns our Linux machine into a hypervisor.
+
+* Check if your system's CPU supports Hardware Virtualization
+  #+BEGIN_SRC command
+  grep -E '(vmx|svm)' /proc/cpuinfo
+  #+END_SRC
+  This should return a non-zero value.
+
+* Step:1 Install KVM and its associate packages
+  + Run command to install kvm and other important packages.
+    #+BEGIN_SRC command
+    yum install -y qemu-kvm 
+    yum install -y qemu-img virt-manager libvirt libvirt-python libvirt-client 
+    yum install -y virt-install virt-viewer bridge-utils
+    #+END_SRC
+  + Start and enable the libvirtd service
+    #+BEGIN_SRC command
+    systemctl start libvirtd
+    systemctl enable libvirtd
+    #+END_SRC
+  + Run the below command to check whether KVM module is loaded or not.
+    lsmod shows (or "lists") the status of modules in the Linux kernel.
+    #+BEGIN_SRC command
+    [root@linuxtechi ~]# lsmod | grep kvm
+    kvm_intel             162153  0
+    kvm                   525409  1 kvm_intel
+    [root@linuxtechi ~]#
+    #+END_SRC
+  + Start virt-manager 
+    #+BEGIN_SRC command
+    virt-manager
+    #+END_SRC
+  + For minimal CentOS 7 or RHEL 7 virt-manger will not start and you need to install x-window package.
+    #+BEGIN_SRC command
+    yum install "@X Window System" xorg-x11-xauth xorg-x11-fonts-* xorg-x11-utils -y
+    #+END_SRC
+  + Start virt-manager again 
+  
+* Step:2 Start Creating Virtual Machines
+  + Start Virt-manager 
+  + Create a virtual machine using the GUI interface of Virt-manager 
+* Step:3 Create virtual machines using command line 
+  + Command line is the real power of KVM.
+  + Sample command to create virtual machine using command line is given below -
+    #+BEGIN_SRC command
+    virt-install --name=Ubuntu-16-04 --file=/var/lib/libvirt/images/ubuntu16-04.dsk --file-size=20 --nonsparse --graphics spice --vcpus=2 --ram=2048 --cdrom=ubuntu-16.04-server-amd64.iso --network bridge=br0 --os-type=linux --os-variant=generic
+    #+END_SRC
+  + Here are the details for the attributes of virt-install command 
+    #+BEGIN_SRC command
+    In the above ‘virt-install’ command we have used following options :
+
+–name = <Name of the Virtual Machine>
+–file = <Location where our virtual machine disk file will be stored >
+–file-size = < Size of the Virtual Machine, in my case it is 20GB >
+–nonsparse = < Allocate the whole storage while creating>
+–graphics = < Specify the graphical tool for interactive installation, in above example I am using spice >
+–vcpu = < Number of virtual CPU for the Machine >
+–ram = < RAM size for the virtual Machine >
+–cdrom = < Virtual CD ROM which specify the installation media like ISO file >
+–network = < it is used to specify which network we will use for the virtual machine, in this example I am bridge interface>
+–os-type = < Operating system type like linux and window>
+–os-variant= <KVM maintains the OS variants like ‘fedora18′, ‘rhel6’ and ‘winxp’ , this option is optional and if you not sure about OS variant you can mentioned it as generic>
+
+    #+END_SRC
+
+* Important commands to deal with KVM 
+  + virsh list ::
+    To list all VMs
+    #+BEGIN_SRC command
+    virsh list
+    #+END_SRC
+    #+BEGIN_SRC command
+    Id    Name                           State
+    ----------------------------------------------------
+    3     alice                          running
+    #+END_SRC
+
+* References
++ http://www.linuxtechi.com/install-kvm-hypervisor-on-centos-7-and-rhel-7/
++ http://xmodulo.com/use-kvm-command-line-debian-ubuntu.html
