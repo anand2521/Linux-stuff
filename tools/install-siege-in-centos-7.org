@@ -1,0 +1,28 @@
+#+Title: Install siege in Centos 7
+#+Author: Ashay Maheshwari
+#+Date: November 9, 2016
+
+
+* Introduction 
+  This document lists the steps to install siege in centos 7.
+  To learn more about siege visit https://www.joedog.org/siege-home/
+
+* Installation
+  #+BEGIN_SRC command
+  yum update -y
+  yum install wget nano build-essential zlib zlib-devel libssl-dev openssl-devel -y
+  yum group install development tools
+  wget http://download.joedog.org/siege/siege-latest.tar.gz
+  tar -zxvf siege-latest.tar.gz
+  cd siege-*/
+  ./configure --with-ssl
+  make && make install
+  siege.config
+  siege -C
+  #+END_SRC
+
+* References
+  + https://roastahost.com/how-to-install-siege-on-centos-7/
+  + https://www.joedog.org/siege-home/
+
+
