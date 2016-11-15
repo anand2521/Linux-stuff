@@ -1,0 +1,4 @@
+#+Title: Install teamviwer in windows 10
+
+* Reference
+  + http://www.itzgeek.com/how-tos/linux/centos-how-tos/how-to-install-teamviewer-on-centos-7-rhel-7.html
