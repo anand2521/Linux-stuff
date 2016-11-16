@@ -1,0 +1,77 @@
+#+Title: Taking dump of elasticsearch  data
+#+Date: 21 September, 2016
+#+Author: Ashay Maheshwari
+
+* Introdction
+  This document shows how to take the dump/backup of elasticsearch indexes and documents in a file.
+  This will get its usecase in the following -
+  + Taking backup of the existing analytics server having elastic search documents 
+  + Fetching analytics and feedback(both from elasticsearch) from Portable hardrive version of Open edX. 
+  
+* Method 1
+** Installations 
+   + Install elasticsearch tools ::
+     #+BEGIN_SRC command
+     npm install -g elasticsearch-tools  
+     #+END_SRC
+
+** Command to take the dump
+   #+BEGIN_SRC command
+   es-export-bulk --url http://localhost:9200 --file ~/backups/elasticsearch/prod/data.json --index myIndex
+   #+END_SRC
+   
+* Method 2
+** Installations 
+  On your server running the ELK stck, install the following -
+  + Install npm and nodejs ::
+    #+BEGIN_SRC command
+    sudo apt-get install npm
+    sudo apt-get install nodejs
+    #+END_SRC
+  + Install elasticdump ::
+    #+BEGIN_SRC command
+    sudo npm install elasticdump
+    #+END_SRC
+  + Fix npm error /usr/bin/env: node ::
+    #+BEGIN_SRC command
+    sudo ln -s /usr/bin/nodejs /usr/bin/node
+    #+END_SRC
+  
+** Steps to take elasticdump 
+  + Turn of the service of elasticsearch ::
+    #+BEGIN_SRC 
+    sudo service elasticsearch stop
+    #+END_SRC
+
+  + Navigate to the binaries of elasticsearch directory ::
+    #+BEGIN_SRC command
+    /root/node_modules/elasticdump 
+    #+END_SRC
+  + Fire command to take the backup of elasticsearch document data in a file ::
+    + General syntax ::
+    #+BEGIN_SRC command
+    ./bin/elasticdump --input=http://<your-server-name>:9200/<index-name>/ --output=<path/to/your/dump/file/filename.json> --type=data
+    #+END_SRC
+    + Specific test syntax ::
+    #+BEGIN_SRC command
+    ./bin/elasticdump --input=http://localhost:9200/vlabs/ --output=/home/ubuntu/vlabs_index_data.json --type=data
+    #+END_SRC
+    
+  + Fire command to take the backup of elasticsearch document mapping in a file ::
+    + General syntax ::
+      #+BEGIN_SRC command
+      ./bin/elasticdump --input=http://<your-server-name>:9200/<index-name>/ --output=<path/to/your/dump/file/filename.json> --type=mapping
+      #+END_SRC
+    + Specific test syntax ::
+      #+BEGIN_SRC command
+       ./bin/elasticdump --input=http://localhost:9200/vlabs/ --output=/home/ubuntu/vlabs_mapping_data.json --type=mapping
+      #+END_SRC
+
+
+
+* References 
++ [[http://stackoverflow.com/questions/26547560/how-to-move-elasticsearch-data-from-one-server-to-another][Move data from one Elasticsearch server to another]]
++ [[https://www.npmjs.com/package/elasticdump][Elasticdump syntax]]
++ [[https://github.com/nodejs/node-v0.x-archive/issues/3911][Fix npm error]]
++ [[https://github.com/skratchdot/elasticsearch-tools][Elasticsearch tools]]
+
