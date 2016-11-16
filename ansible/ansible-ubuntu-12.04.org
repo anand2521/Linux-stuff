@@ -1,0 +1,47 @@
+#+Title: Ansible 
+#+Date: November 16, 2016
+#+Author: Ashay Maheshwari
+
+
+* Introduction
+  + Ansible is a configuration management and provisioning tool.
+  + It uses SSH to connect to servers and run the configured Tasks.
+  + Without a lot of extra coding, bash scripts are usually not safety
+    run again and again. Ansible uses "Facts", which is system and
+    environment information it gathers ("context") before running
+    Tasks.
+  + Ansible uses these facts to check state and see if it needs to
+    change anything in order to get the desired outcome. This makes it
+    safe to run Ansible Tasks against a server over and over again.
+
+* Installation 
+  + Install build-essentials/gcc
+    #+BEGIN_SRC command
+    sudo apt-get install build-essential
+    #+END_SRC
+  + Install software properties
+    #+BEGIN_SRC command
+    sudo apt-get install -y software-properties-common
+    sudo apt-get install -y python-software-properties
+    #+END_SRC
+  + Install python-dev
+    #+BEGIN_SRC command
+    sudo apt-get -y install python-dev
+    sudo apt-get install libffi-dev
+    #+END_SRC
+  + Install pip
+    #+BEGIN_SRC command
+    sudo apt-get -y install python-pip
+    #+END_SRC
+  + Install ansible 
+    #+BEGIN_SRC command
+    pip install ansible==2.1
+    #+END_SRC
+
+
+
+* References
+  + [[https://serversforhackers.com/an-ansible-tutorial][Servers for Hackers]]
+  + [[http://stackoverflow.com/questions/21530577/fatal-error-python-h-no-such-file-or-directory][fatal error: Python.h: No such file or directory]]
+  + https://ansible-tips-and-tricks.readthedocs.io/en/latest/ansible/install/
+  + [[http://stackoverflow.com/questions/12982486/glib-compile-error-ffi-h-but-libffi-is-installed][GLib compile error (ffi.h), but libffi is installed]]
