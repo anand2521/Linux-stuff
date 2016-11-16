@@ -1,0 +1,58 @@
+#+Title: Install KVM in centos 7
+#+Date: November 16, 2016
+#+Author: Ashay Maheshwari
+
+* Introduction 
++ KVM, the Linux kernel hypervisor, developed by Qumranet.
++ KVM is a Type 2 hypervisor, which means it runs inside an operating
+  system.
++ KVM supports pretty much any guest operating systems: Linux, Mac OS
+  X, Unix, Windows etc.
+
+
+* System Requirements 
+  + Check if your x86 CPU has virtualization extensions ::
+    #+BEGIN_SRC command
+    egrep -o '(vmx|svm)' /proc/cpuinfo
+    vmx
+    vmx
+    #+END_SRC
+  + If the output does not contain vmx or svm flag, it means the host
+    CPU does not have hardware virtualization support.
+  + If not enabled, please enable virtualization in system BIOS.
+  + Add user to libvirtd group to manage virtual machines 
+    #+BEGIN_SRC command
+    $ sudo adduser [youruserID] libvirtd
+    #+END_SRC
+* Installalling KVM
+  + Install the following packages :: 
+    #+BEGIN_SRC command
+    $ sudo apt-get -y install qemu-kvm libvirt-bin virt-manager bridge-utils
+    #+END_SRC
+
+  + Check installtion ::
+    #+BEGIN_SRC command
+    $ kvm-ok
+    INFO: /dev/kvm exists
+    KVM acceleration can be used
+    #+END_SRC
+
+  + Run this command to check if KVM is running ::
+    #+BEGIN_SRC command
+    $ virsh -c qemu:///system list
+      Id Name                 State
+      ----------------------------------
+    #+END_SRC
+
+* Install guest OS 
+  + Launch KVM virt-manager 
+    #+BEGIN_SRC command
+    $ virt-manager
+    #+END_SRC
+
+ 
+
+
+* References
++ http://www.itworld.com/article/2827037/virtualization/crash-course--virtualization-with-kvm-on-ubuntu-server.html
++ http://xmodulo.com/use-kvm-command-line-debian-ubuntu.html
