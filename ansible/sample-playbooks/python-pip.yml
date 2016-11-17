@@ -1,0 +1,5 @@
+---
+- hosts: web
+  tasks:
+   - name: Install python-pip
+     apt: pkg=python-pip 
