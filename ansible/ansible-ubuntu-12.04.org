@@ -38,10 +38,48 @@
     pip install ansible==2.1
     #+END_SRC
 
+* Create your inventory file 
+  + An inventroy file contains the list of servers which are to be
+    managed by Ansible.
+  + It is a simple file which contains groups, uner which are listed
+    the hostname or IP address of the server/hosts to be managed.
+  + By default an inventory file is present in /etc/ansible/hosts
+  + Below is a sample inventory file ::
+    #+BEGIN_SRC command
+    vim /etc/ansible/hosts
+    [web]
+    192.168.22.10
+    192.168.22.11
+    #+END_SRC
+  + In above example, there is a group called web, which contains two
+    servers/hosts listed.
 
+* Pre-requisite for ansible to manage hosts
+  + Ansible server must have key-based ssh access to the servers to be managed.
+  + Server running the tasks is called a CONTROLLER NODE.
+  + Server being controlled is called a CONTROLLED NODE.
+  + Generate ssh-keys and copy ssh-key-id to the authorized_keys of
+    appropriate servers.
+  + Refer this [[https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server][Tutorial on Digital Ocean]]
+
+* Check if your inventory is properly configured
+  #+BEGIN_SRC command
+root@web-app:~# ansible all -m ping 
+10.4.15.209 | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+10.4.15.191 | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+
+  #+END_SRC
 
 * References
   + [[https://serversforhackers.com/an-ansible-tutorial][Servers for Hackers]]
   + [[http://stackoverflow.com/questions/21530577/fatal-error-python-h-no-such-file-or-directory][fatal error: Python.h: No such file or directory]]
   + https://ansible-tips-and-tricks.readthedocs.io/en/latest/ansible/install/
   + [[http://stackoverflow.com/questions/12982486/glib-compile-error-ffi-h-but-libffi-is-installed][GLib compile error (ffi.h), but libffi is installed]]
+  + [[https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server][SSH key access on digital ocean]]
+  
