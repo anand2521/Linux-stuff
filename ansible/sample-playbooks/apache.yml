@@ -1,0 +1,5 @@
+---
+- hosts: web
+  tasks:
+   - name: Install Apache
+     apt: pkg=apache2 state=installed update_cache=true
