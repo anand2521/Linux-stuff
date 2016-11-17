@@ -75,11 +75,112 @@ root@web-app:~# ansible all -m ping
 }
 
   #+END_SRC
+  For the command used above, here are the following possible flags -
+  #+BEGIN_SRC command
+  all - Use all defined servers from the inventory file
+  -m ping - Use the "ping" module, which simply runs the ping command and returns the results
+  -s - Use "sudo" to run the commands
+  -k - Ask for a password rather than use key-based authentication
+  -u vagrant - Log into servers using user vagrant
+  #+END_SRC
+* Ansible module
+  + Modules can do things like install software, copy files, use
+    templates etc.
+  + Ansible modules ensure indempotence - we can run the same Tasks
+    over and over without affecting the final result.
+  + Example module to install nginx in servers ::
+    #+BEGIN_SRC command
+    ansible all -s -m apt -a 'pkg=nginx state=installed update_cache=true'
+    10.4.15.191 | SUCCESS => {
+    "cache_update_time": 1479354394, 
+    "cache_updated": true, 
+    "changed": true, 
+    "stderr": "", 
+    "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nnginx is already the newest version.\n0 upgraded, 0 newly installed, 0 to remove and 310 not upgraded.\n5 not fully installed or removed.\nAfter this operation, 0 B of additional disk space will be used.\nSetting up libjpeg-turbo8:i386 (1.1.90+svn733-0ubuntu4.4) ...\nSetting up libxslt1.1:i386 (1.1.26-8ubuntu1.3) ...\nSetting up nginx-common (1.1.19-1ubuntu0.8) ...\nSetting up nginx-light (1.1.19-1ubuntu0.8) ...\nSetting up nginx (1.1.19-1ubuntu0.8) ...\nProcessing triggers for libc-bin ...\nldconfig deferred processing now taking place\n", 
+    "stdout_lines": [
+        "Reading package lists...", 
+        "Building dependency tree...", 
+        "Reading state information...", 
+        "nginx is already the newest version.", 
+        "0 upgraded, 0 newly installed, 0 to remove and 310 not upgraded.", 
+        "5 not fully installed or removed.", 
+        "After this operation, 0 B of additional disk space will be used.", 
+        "Setting up libjpeg-turbo8:i386 (1.1.90+svn733-0ubuntu4.4) ...", 
+        "Setting up libxslt1.1:i386 (1.1.26-8ubuntu1.3) ...", 
+        "Setting up nginx-common (1.1.19-1ubuntu0.8) ...", 
+        "Setting up nginx-light (1.1.19-1ubuntu0.8) ...", 
+        "Setting up nginx (1.1.19-1ubuntu0.8) ...", 
+        "Processing triggers for libc-bin ...", 
+        "ldconfig deferred processing now taking place"
+    ]
+}
 
+    #+END_SRC
+  + Explaining the command ::
+    #+BEGIN_SRC command
+    all - Run on all defined hosts from the inventory file
+    -s - Run using sudo
+    -m apt - Use the apt module
+    -a 'pkg=nginx state=installed update_cache=true' - Provide the arguments for the apt module, including the package name, our desired end state and whether to update the package repository cache or not
+    #+END_SRC
+       
+* The Ad-hoc way of running ansible 
+  + The commands mentioned in the above section are the ad-hoc
+    commands of ansible.
+  + These commands to be fired again cannot be used unless you save it
+    somewhere.
+  + Ad-hoc commands are used to setupa and manager servers for very
+    rare actions.
+  + A simple example can be to test connectivity using ping module of
+    ansible.
+
+* Ansible playbooks 
+  + Playbooks can run multiple tasks and provide more functionalities
+    of decision making.
+  + Each playbook is composed of one or more ‘plays’ in a list.
+  + Simple playbook example to install Nginx ::
+    + File nginx.yml 
+      #+BEGIN_SRC command
+      ---
+      - hosts: web
+        tasks:
+         - name: Install Nginx
+           apt: pkg=nginx state=installed update_cache=true  
+      #+END_SRC
+    + The hosts section mentions the group/host on which the playbook will run.
+    + Run the playbook using the following command ::
+      #+BEGIN_SRC command
+      $ ansible-playbook -s nginx.yml
+      #+END_SRC
+    + Output of the above command is given below ::
+      #+BEGIN_SRC command
+      PLAY [web] *********************************************************************
+
+TASK [setup] *******************************************************************
+ok: [10.4.15.191]
+ok: [10.4.15.209]
+
+TASK [Install Nginx] ***********************************************************
+ok: [10.4.15.191]
+fatal: [10.4.15.209]: FAILED! => {"cache_update_time": 1479354830, "cache_updated": true, "changed": false, "failed": true, "msg": "'/usr/bin/apt-get -y -o \"Dpkg::Options::=--force-confdef\" -o \"Dpkg::Options::=--force-confold\"     install 'nginx'' failed: E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem. \n", "stderr": "E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem. \n", "stdout": "", "stdout_lines": []}
+
+NO MORE HOSTS LEFT *************************************************************
+	to retry, use: --limit @nginx.retry
+
+PLAY RECAP *********************************************************************
+10.4.15.191                : ok=2    changed=0    unreachable=0    failed=0   
+10.4.15.209                : ok=1    changed=0    unreachable=0    failed=1   
+
+      #+END_SRC
+     
+    
+
+  
 * References
   + [[https://serversforhackers.com/an-ansible-tutorial][Servers for Hackers]]
   + [[http://stackoverflow.com/questions/21530577/fatal-error-python-h-no-such-file-or-directory][fatal error: Python.h: No such file or directory]]
   + https://ansible-tips-and-tricks.readthedocs.io/en/latest/ansible/install/
   + [[http://stackoverflow.com/questions/12982486/glib-compile-error-ffi-h-but-libffi-is-installed][GLib compile error (ffi.h), but libffi is installed]]
   + [[https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server][SSH key access on digital ocean]]
-  
+  + [[http://docs.ansible.com/ansible/modules_by_category.html][Module index for Ansible]] 
+  + [[http://docs.ansible.com/ansible/playbooks_intro.html][Ansible playbooks]]
