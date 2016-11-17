@@ -374,7 +374,8 @@ Change permission for the project root directory, which is one level above the w
       # Specifying a path directly
       - fetch: src=/tmp/somefile dest=/tmp/prefix-{{ inventory_hostname }} flat=yes
       #+END_SRC
-* Sample Playbooks 
+* Sample Playbooks
+  https://github.com/ashay-maheshwari/Linux-stuff/tree/master/ansible/sample-playbooks 
 * References
   + [[https://serversforhackers.com/an-ansible-tutorial][Servers for Hackers]]
   + [[http://stackoverflow.com/questions/21530577/fatal-error-python-h-no-such-file-or-directory][fatal error: Python.h: No such file or directory]]
@@ -385,3 +386,4 @@ Change permission for the project root directory, which is one level above the w
   + [[http://docs.ansible.com/ansible/playbooks_intro.html][Ansible playbooks]]
   + [[http://docs.ansible.com/ansible/list_of_commands_modules.html][Command module]]
   + [[http://docs.ansible.com/ansible/list_of_files_modules.html][Files Module]]
+  + [[https://github.com/ansible/ansible/issues/9966][Issue for apt-add-repository]]
