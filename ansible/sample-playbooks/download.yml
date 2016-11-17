@@ -1,0 +1,11 @@
+#This yml file will download a file same as wget and will save it 
+#in remote hosts in the mentioned destination
+---
+- hosts: web
+  tasks:
+   - name: Download a file 
+     get_url: 
+       url: http://vlabs.ac.in/images/logo-new.png
+       dest: /root/wastefile.png 
+       mode: 0440
+
