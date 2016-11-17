@@ -178,7 +178,6 @@ PLAY RECAP *********************************************************************
       log printed on the terminal.
     + One can refer log and then rectify the errors.
     
-
 * Handlers
   + A Handler is exactly the same as a Task (it can do anything a Task
     can), but it will run when called by another Task.
@@ -270,6 +269,29 @@ Enable the virtual host configuration by symlinking it to the sites-enabled dire
 Create the web root
 Change permission for the project root directory, which is one level above the web root created previously
     #+END_SRC
+
+* Commonly used ansible module 
+** Command 
+   + The command module takes the command name followed by a list of
+     space-delimited arguments.
+   + It will not be processed through the shell, so variables like
+     $HOME and operations like "<", ">", "|", ";" and "&" will not
+     work.
+   + Examples ::
+     #+BEGIN_SRC command
+     # Example to fire a shutdown command
+     - command: /sbin/shutown -t now 
+     
+     # Run the command if the specified file does not exist
+     - command: /usr/bin/make_database.sh arg1 arg2 creates=/path/to/database
+     
+     # This command  will change th eworking directory to somedir/ and will only run when /path/to/database doesnot exist.
+     - command: /usr/bin/make_database.sh arg1 arg2
+       args:
+        chdir: somedir/
+        creates: /path/to/database
+     #+END_SRC
+   
 * References
   + [[https://serversforhackers.com/an-ansible-tutorial][Servers for Hackers]]
   + [[http://stackoverflow.com/questions/21530577/fatal-error-python-h-no-such-file-or-directory][fatal error: Python.h: No such file or directory]]
@@ -278,3 +300,5 @@ Change permission for the project root directory, which is one level above the w
   + [[https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server][SSH key access on digital ocean]]
   + [[http://docs.ansible.com/ansible/modules_by_category.html][Module index for Ansible]] 
   + [[http://docs.ansible.com/ansible/playbooks_intro.html][Ansible playbooks]]
+  + [[http://docs.ansible.com/ansible/list_of_commands_modules.html][Command module]]
+  
