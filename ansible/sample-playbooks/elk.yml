@@ -1,0 +1,30 @@
+#This playbook will install elasticsearch in ubuntu 12.04
+---
+- hosts: web
+  tasks:
+   - name: Install gcc build essentials
+     apt: pkg=build-essential
+
+   - name: Install python dev environment
+     apt: pkg=python-dev
+
+   - name: Install python-pip
+     apt: pkg=python-pip
+
+   - name: Install git
+     apt: pkg=git
+
+   - name: Install software-properties
+     apt: pkg=software-properties-common
+
+   - name: Install python software properties
+     apt: pkg=python-software-properties
+
+   - name: Update cache
+     apt: update_cache=true
+
+   - name: Copy elasticsearch.deb to remote hosts
+     copy:
+      src=/root/elasticsearch-5.0.1.deb
+      dest=/root/elasticsearch-5.0.1.deb
+      mode=777
