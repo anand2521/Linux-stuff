@@ -28,3 +28,20 @@
       src=/root/elasticsearch-5.0.1.deb
       dest=/root/elasticsearch-5.0.1.deb
       mode=777
+
+   - name: Copy logstash.deb to remote hosts
+     copy:
+      src=/root/logstash-5.0.1.deb
+      dest=/root/logstash-5.0.1.deb
+      mode=777
+
+   - name: Copy kibana.deb to remote hosts 
+     copy:
+      src=/root/kibana-5.0.1-amd64.deb
+      dest=/root/kibana-5.0.1-amd64.deb
+      mode=777
+
+
+   - name: Install elasticsearch
+     shell: dpkg -i elasticsearch-5.0.1.deb
+     
