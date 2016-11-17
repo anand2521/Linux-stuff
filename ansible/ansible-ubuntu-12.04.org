@@ -271,7 +271,8 @@ Change permission for the project root directory, which is one level above the w
     #+END_SRC
 
 * Commonly used ansible module 
-** Command 
+** Commands Moudle
+*** command 
    + The command module takes the command name followed by a list of
      space-delimited arguments.
    + It will not be processed through the shell, so variables like
@@ -292,6 +293,36 @@ Change permission for the project root directory, which is one level above the w
         creates: /path/to/database
      #+END_SRC
    
+*** expect
+   + Executes a command and responds to prompts
+   + Examples
+     #+BEGIN_SRC command
+     # Give a password to a user 
+     - expect:
+        command: passwd username 
+        responses: 
+          (?i)password: "Mysecretpassword"
+
+     
+     #+END_SRC   
+     
+*** script 
+    + Runs a local script on a remote node after transferring it.
+    + The local script at path will be transferred to the remote node
+      and then executed.
+    + This does not require python present at the remote end.
+    + Example 
+      #+BEGIN_SRC command
+      # Executes a script with given arguments 
+      - script: /some/local/script.sh --some-arguments 1234
+      
+      # Run a script that created a file, but only if the file is not yet created.
+      - script: /some/local/create_file.sh --some-arguments 1234 creates=/the/created/file.txt
+
+      # Run a script that removes a file, but only if the file is not yet removed. 
+      - script: /some/local/remove_file.sh --some-arguments 1234 removes=/the/removed/file.txt
+      #+END_SRC
+ 
 * References
   + [[https://serversforhackers.com/an-ansible-tutorial][Servers for Hackers]]
   + [[http://stackoverflow.com/questions/21530577/fatal-error-python-h-no-such-file-or-directory][fatal error: Python.h: No such file or directory]]
