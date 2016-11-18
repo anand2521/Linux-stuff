@@ -1,0 +1,37 @@
+#+Title: Docker Engine in CentOs 7
+#+Date: Novemeber 18, 2016
+#+Author: Ashay Maheshwari
+
+
+* Installation 
+  + Update your existing package.
+    #+BEGIN_SRC command
+    $ yum update -y
+    #+END_SRC
+  + Add yum repository
+    #+BEGIN_SRC command
+    $ vim /etc/yum.repos.d/docker.repo
+    [dockerrepo]
+    name=Docker Repository
+    baseurl=https://yum.dockerproject.org/repo/main/centos/7/
+    enabled=1
+    gpgcheck=1
+    gpgkey=https://yum.dockerproject.org/gpg   
+    #+END_SRC
+  + Install Docker package
+    #+BEGIN_SRC command
+    $ yum install docker-engine -y
+    #+END_SRC
+  + Enable the service 
+    #+BEGIN_SRC command
+    $ systemctl enable docker.service
+    #+END_SRC
+  + Start the Docker daemon
+    #+BEGIN_SRC 
+    systemctl start docker
+    #+END_SRC
+ 
+* Verify installation 
+  #+BEGIN_SRC command
+  $ docker run -rm hello-world
+  #+END_SRC 
