@@ -1,0 +1,89 @@
+#+Title: Docker basic commands 
+#+Date: November 18, 2016
+#+Author: Ashay Maheshwari
+
+* Inroduction 
+  The following document contains the basic commands used in docker as
+  a docker client.
+
+* Informative commands 
+** docker version
+   #+BEGIN_SRC command
+$ docker version 
+Client:
+ Version:      1.12.3
+ API version:  1.24
+ Go version:   go1.6.3
+ Git commit:   6b644ec
+ Built:        
+ OS/Arch:      linux/amd64
+
+Server:
+ Version:      1.12.3
+ API version:  1.24
+ Go version:   go1.6.3
+ Git commit:   6b644ec
+ Built:        
+ OS/Arch:      linux/amd64
+
+  #+END_SRC
+** docker info
+   #+BEGIN_SRC command
+$ docker info
+ Containers: 0
+ Running: 0
+ Paused: 0
+ Stopped: 0
+Images: 2
+Server Version: 1.12.3
+Storage Driver: devicemapper
+ Pool Name: docker-8:3-9699599-pool
+ Pool Blocksize: 65.54 kB
+ Base Device Size: 10.74 GB
+ Backing Filesystem: xfs
+ Data file: /dev/loop0
+ Metadata file: /dev/loop1
+ Data Space Used: 178 MB
+ Data Space Total: 107.4 GB
+ Data Space Available: 107.2 GB
+ Metadata Space Used: 786.4 kB
+ Metadata Space Total: 2.147 GB
+ Metadata Space Available: 2.147 GB
+ Thin Pool Minimum Free Space: 10.74 GB
+ Udev Sync Supported: true
+ Deferred Removal Enabled: false
+ Deferred Deletion Enabled: false
+ Deferred Deleted Device Count: 0
+ Data loop file: /var/lib/docker/devicemapper/devicemapper/data
+ WARNING: Usage of loopback devices is strongly discouraged for production use. Use `--storage-opt dm.thinpooldev` to specify a custom block storage device.
+ Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata
+ Library Version: 1.02.107-RHEL7 (2016-06-09)
+Logging Driver: json-file
+Cgroup Driver: cgroupfs
+Plugins:
+ Volume: local
+ Network: host bridge null overlay
+Swarm: inactive
+Runtimes: runc
+Default Runtime: runc
+Security Options: seccomp
+Kernel Version: 3.10.0-327.36.3.el7.x86_64
+Operating System: CentOS Linux 7 (Core)
+OSType: linux
+Architecture: x86_64
+CPUs: 4
+Total Memory: 3.506 GiB
+Name: localhost.localdomain
+ID: ZESM:JBAF:UFX5:K23J:X37E:VVV3:UKHL:6B6Z:FKWF:OIQK:EE7U:SE5F
+Docker Root Dir: /var/lib/docker
+Debug Mode (client): false
+Debug Mode (server): false
+Http Proxy: http://proxy.iiit.ac.in:8080/
+Https Proxy: http://proxy.iiit.ac.in:8080/
+Registry: https://index.docker.io/v1/
+WARNING: bridge-nf-call-iptables is disabled
+WARNING: bridge-nf-call-ip6tables is disabled
+Insecure Registries:
+ 127.0.0.0/8
+
+   #+END_SRC
