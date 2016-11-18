@@ -201,6 +201,21 @@ bdc481e014208a2db57d482a417b6a608ce72a0e44a3a605236ea60ab2516337
 
 
 * Significant docker operations
+** Pulling a docker image for docker hub
+#+BEGIN_SRC command
+docker pull <image name>
+[root@localhost ~]# docker pull httpd
+Using default tag: latest
+latest: Pulling from library/httpd
+386a066cd84a: Pull complete 
+a11d6b8e2fac: Pull complete 
+c1fdc7beec37: Pull complete 
+bd14a67deca2: Pull complete 
+92b34ad02810: Pull complete 
+Digest: sha256:5b4a3c85b4b874e84174ee7e78a59920818aa39903f6a28a47b9278f576b4a4d
+Status: Downloaded newer image for httpd:latest
+
+#+END_SRC
 ** Exploring a container
 *** docker run command 
    + List docker images
