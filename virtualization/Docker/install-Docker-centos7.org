@@ -31,6 +31,32 @@
     systemctl start docker
     #+END_SRC
  
+* Configure  Docker if sitting behind a proxy 
+  + create a systemd drop-in directory for the docker service
+    #+BEGIN_SRC command
+    mkdir /etc/systemd/system/docker.service.d
+    #+END_SRC
+  + create a file called
+    /etc/systemd/system/docker.service.d/http-proxy.conf to add
+    HTTP_PROXY Environment variable
+    #+BEGIN_SRC command
+    [Service]
+    Environment="HTTP_PROXY=http://proxy.iiit.ac.in:8080"
+    Environment="HTTPS_PROXY=http://proxy.iiit.ac.in:8080"
+    #+END_SRC
+  + Flush changes 
+    #+BEGIN_SRC command
+    systemctl daemon-reload
+    #+END_SRC
+  + Verify the configuration has been loaded
+    #+BEGIN_SRC command
+    systemctl show --property Environment docker
+    #+END_SRC
+  + Restart Docker 
+    #+BEGIN_SRC command
+    systemctl restart docker 
+    #+END_SRC
+  
 * Verify installation 
   #+BEGIN_SRC command
   $ docker run -rm hello-world
@@ -55,3 +81,6 @@ Server:
  OS/Arch:      linux/amd64
   
 #+END_SRC
+* Reference
+  + http://stackoverflow.com/questions/23111631/cannot-download-docker-images-behind-a-proxy
+
