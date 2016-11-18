@@ -2,7 +2,7 @@
 #+Date: Novemeber 18, 2016
 #+Author: Ashay Maheshwari
 
-
+* Introduction to Docker 
 * Installation 
   + Update your existing package.
     #+BEGIN_SRC command
@@ -83,4 +83,4 @@ Server:
 #+END_SRC
 * Reference
   + http://stackoverflow.com/questions/23111631/cannot-download-docker-images-behind-a-proxy
-
+  + http://www.troubleshooters.com/linux/docker/docker_newbie.htm

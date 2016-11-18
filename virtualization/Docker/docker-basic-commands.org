@@ -171,8 +171,54 @@ hello-world         latest              c54a2cc56cbb        4 months ago        
 #+END_SRC
 
 ** docker ps 
-Lists the containers 
++ Lists the containers both running and stopped ::
+#+BEGIN_SRC command
+[root@localhost ~]# docker ps -a 
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                       PORTS               NAMES
+bdc481e01420        ubuntu              "bash"              2 minutes ago       Exited (127) 6 seconds ago                       sick_minsky
+#+END_SRC
+
++ Lists running container ::
 #+BEGIN_SRC command
 [root@localhost ~]# docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+a0973e059c14        ubuntu              "bash"              21 seconds ago      Up 18 seconds                           hungry_ardinghelli
 #+END_SRC
+
++ Info of last container you ran ::
+#+BEGIN_SRC command
+[root@localhost ~]# docker ps -l
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+a0973e059c14        ubuntu              "bash"              44 seconds ago      Up 41 seconds                           hungry_ardinghelli
+#+END_SRC
+
++ Lists container IDs of running and stopped containers ::
+#+BEGIN_SRC command
+[root@localhost ~]# docker ps -aq --no-trunc
+a0973e059c14f66a049f4e62e3a0001ab573659ced6a8377226e147ee4335967
+bdc481e014208a2db57d482a417b6a608ce72a0e44a3a605236ea60ab2516337
+#+END_SRC
+
+
+* Significant docker operations
+** Exploring a container
+*** docker run command 
+   + List docker images
+     #+BEGIN_SRC command
+[root@localhost ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              e4415b714b62        37 hours ago        128.1 MB
+hello-world         latest              c54a2cc56cbb        4 months ago        1.848 kB
+     #+END_SRC
+   + Select an image and run a container
+     #+BEGIN_SRC command
+[root@localhost ~]# docker run -i -t ubuntu bash 
+root@bdc481e01420:/# 
+root@bdc481e01420:/# 
+root@bdc481e01420:/# echo "hello world"
+hello world
+root@bdc481e01420:/# 
+     
+     #+END_SRC
+     
+*** doc
