@@ -35,3 +35,23 @@
   #+BEGIN_SRC command
   $ docker run -rm hello-world
   #+END_SRC 
+* Docker version
+#+BEGIN_SRC command
+[root@localhost ~]# docker version
+Client:
+ Version:      1.12.3
+ API version:  1.24
+ Go version:   go1.6.3
+ Git commit:   6b644ec
+ Built:        
+ OS/Arch:      linux/amd64
+
+Server:
+ Version:      1.12.3
+ API version:  1.24
+ Go version:   go1.6.3
+ Git commit:   6b644ec
+ Built:        
+ OS/Arch:      linux/amd64
+  
+#+END_SRC
