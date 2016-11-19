@@ -1,0 +1,58 @@
+#+Title: Openstack devstack installation on ubuntu 14.04 
+#+Author: Ashay Maheshwari
+#+Date: November 18, 2016
+
+
+* Introduction 
+  This document deals with the steps to install openstack devstack
+  version in ubuntu 14.04.
+
+* Installation
+  + Add a user to install devstack of use existing user.
+    #+BEGIN_SRC command
+    adduser stack 
+    #+END_SRC
+
+  + Added user must have sudo privileges
+    #+BEGIN_SRC 
+    apt-get install sudo -y 
+    echo "stack ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    #+END_SRC
+ 
+  + Install git and clone latest version of devstack 
+    #+BEGIN_SRC command
+    sudo apt-get install git -y 
+    git clone https://git.openstack.org/openstack-dev/devstack 
+    cd devstack 
+    #+END_SRC  
+
+  + Check the sample local.conf
+    #+BEGIN_SRC command
+    $ cat devstack/samples/local.conf
+    #+END_SRC
+
+  + create a local.conf and it should look like this 
+    #+BEGIN_SRC command
+    [[local|localrc]]
+FLOATING_RANGE=192.168.1.224/27
+FIXED_RANGE=10.11.12.0/24
+FIXED_NETWORK_SIZE=256
+FLAT_INTERFACE=eth0
+ADMIN_PASSWORD=supersecret
+DATABASE_PASSWORD=iheartdatabases
+RABBIT_PASSWORD=flopsymopsy
+SERVICE_PASSWORD=iheartksl
+    #+END_SRC
+
+  + Run devstack 
+    #+BEGIN_SRC command
+    ./stack.sh
+    #+END_SRC
+
+
+  
+
+* Reference 
+  + http://docs.openstack.org/developer/devstack/guides/single-machine.html
+ 
+
