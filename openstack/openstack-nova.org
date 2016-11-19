@@ -1,0 +1,34 @@
+#+Title: Openstack Nova
+#+Date: November 18, 2016
+#+Author: Ashay Maheshwari
+
+
+* Introduction 
+  + OpenStack is a collection of open source technologies delivering a
+    massively scalable cloud operating system.
+  + Openstack compute service used for hosting and managing cloud
+    computing systems.
+
+* Components of Nova
+  |------+----------------+--------------------------------------------------------|
+  | S.No | Component name | Comment                                                |
+  |------+----------------+--------------------------------------------------------|
+  |    1 | Database       | SQL database  for storing data                         |
+  |------+----------------+--------------------------------------------------------|
+  |    2 | Web Dashboard  | Component to communicate with API                      |
+  |------+----------------+--------------------------------------------------------|
+  |    3 | Auth Manager   | Responsible for users, projects and roles.             |
+  |------+----------------+--------------------------------------------------------|
+  |    4 | Object Store   | Replication of S3 API allowing storage                 |
+  |------+----------------+--------------------------------------------------------|
+  |    5 | Scheduler      | Allocates hotsts to the appropriate VMs                |
+  |------+----------------+--------------------------------------------------------|
+  |    6 | Network        | Responsible for IP forwarding                          |
+  |------+----------------+--------------------------------------------------------|
+  |    7 | Compute        | Controls the communication between hypervisors and VMs |
+  |------+----------------+--------------------------------------------------------|
+  
+
+
+* References 
+ + http://blog.flux7.com/blogs/openstack/tutorial-what-is-nova-and-how-to-install-use-it-openstack
