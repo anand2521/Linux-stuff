@@ -25,7 +25,21 @@
   (http://ken.pepple.info/openstack/2011/04/22/openstack-nova-architecture/)
    
   [[./images/nova-cactus-conceptual.gif]]
-  
 
+  + There are four set of users (developers, devops, owners and operators/admins)
+  + Each category is expecting some functionality of their interest.
+  + Presentation Layer ::
+    + Components interact with users to present information or accept it.
+    + It contains web portals, GUI for developers and non-developers. 
+  + Logic Tier ::
+    + Provides intelligence and control functionality for cloud. 
+    + Orchestration , scheduling,  policy, image registry, logging. 
+  + Compute ::
+    + Actual compute like network, storage etc.
+    + It includes servers, switches, network attached storage.
+  + Management ::
+    + This is to operate the environment.
+    + It can include an API to access the cloud admin features and monitoring. 
+    
 * References
   + http://ken.pepple.info/openstack/2011/04/22/openstack-nova-architecture/
