@@ -4,11 +4,13 @@
 
 
 * Introduction 
-  This document deals with the steps to install openstack devstack
-  version in ubuntu 14.04.
+  + This document deals with the steps to install openstack devstack
+    version in ubuntu 14.04. 
+  + DevStack is an open source project with the goal to offer a
+    development, test or demo environment for working with OpenStack.
 
-* Installation
-  + Add a user to install devstack of use existing user.
+* Install devstack 
+  + Create a user to install devstack of use existing user.
     #+BEGIN_SRC command
     adduser stack 
     #+END_SRC
@@ -26,9 +28,10 @@
     cd devstack 
     #+END_SRC  
 
-  + Check the sample local.conf
+  + Check the sample local.conf and copy in devstack directory
     #+BEGIN_SRC command
     $ cat devstack/samples/local.conf
+    $ cp devstack/samples/local.conf devstack/
     #+END_SRC
 
   + create a local.conf and it should look like this 
@@ -51,8 +54,24 @@ SERVICE_PASSWORD=iheartksl
 
 
   
+* Stop devstack services 
+  In case you want to stop devstack services, use the following instructions.
+  #+BEGIN_SRC command
+  cd devstack 
+  ./unstack.sh
+  #+END_SRC
+  Above script will stop all the services running to keep devstack up.
 
-* Reference 
+* Uninstall devstack 
+  In case you want to remove devstack and uninstall everything which
+  devstack script installed in your machine, use script clean.sh
+  
+  #+BEGIN_SRC command
+  cd devstack 
+  ./clean.sh
+  #+END_SRC
+  
+* References 
   + http://docs.openstack.org/developer/devstack/guides/single-machine.html
- 
-
+  + https://infosectrek.wordpress.com/2014/09/16/installing-devstack-openstack-for-developers-on-ubuntu-14-04/
+  + https://oliverveits.wordpress.com/2016/06/21/getting-started-with-openstack-using-devstack/
