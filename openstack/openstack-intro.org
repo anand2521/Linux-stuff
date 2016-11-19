@@ -1,0 +1,31 @@
+#+Title: Openstack introduction 
+#+Date: November 18, 2016
+#+Author: Ashay Maheshwari
+
+* Introduction
+  + OpenStack is a collection of open source technologies delivering a
+    massively scalable cloud operating system
+  
+
+* Why do someone need it ???
+  + We are going to build our own IaaS cloud and offer it to customers.
+  + To acheive this, we would need the following features ::
+    + Allow application owners to register for our cloud services,
+      view their usage and see their bill.
+    + Allow Developers/DevOps folks to create and store custom images
+      for their applications.
+    + Allow DevOps/Developers to launch, monitor and terminate
+      instances.
+    + Allow the Cloud Operator to configure and operate the cloud
+      infrastructure.
+
+* Conceptual Architecture of Openstack
+  Given below is the conceptual architecture of Openstack which is
+  designed on the basis of roles, users
+  (http://ken.pepple.info/openstack/2011/04/22/openstack-nova-architecture/)
+   
+  [[./images/nova-cactus-conceptual.gif]]
+  
+
+* References
+  + http://ken.pepple.info/openstack/2011/04/22/openstack-nova-architecture/
