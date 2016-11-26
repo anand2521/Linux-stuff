@@ -18,6 +18,7 @@
   + For every request made to elasticsearch API, an ACK is returned as
     a response or else the expected output.
 
+
 * Important commands for dealing with Elasticsearch database.
 
 ** Start/Stop/Check status of elasticsearch service
@@ -42,7 +43,7 @@ server.
 
 ** Insert a record in elasticsearch database 
 To insert record/data in elasticsearch database, use GET API
-#+BEGIN_SRC c
+#+BEGIN_SRC 
 General Syntax # curl -XPOST "http://http://<hostname>:<port-number>/<index-name>/<doc-type>/[id-of-record]" -d 
 {
  "key1" : "value1",

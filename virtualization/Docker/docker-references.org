@@ -5,3 +5,5 @@
 + [[https://blog.docker.com/2016/11/introducing-docker-community-directory-docker-community-slack/?mkt_tok=eyJpIjoiTXpkalkyWTFObU5sTlRSbCIsInQiOiJBTUYrRUtDZ29adnoyelNOT3d2bjNndE1nbXhSeHJFMThBZDRic2VQOFVwVTdNKy9KaXIxd0FOR2ZYbUJjRWVxSVZURDdHV0tsUzNQOFZocHlBQlVrTG9oeXE3TjVKM3hVS2JoY3RhelQ4QT0ifQ%3D%3D][Docker Community Directory and Slack]]
 + [[https://blog.docker.com/2016/11/three-considerations-docker-datacenter-deployment/?mkt_tok=eyJpIjoiTXpkalkyWTFObU5sTlRSbCIsInQiOiJBTUYrRUtDZ29adnoyelNOT3d2bjNndE1nbXhSeHJFMThBZDRic2VQOFVwVTdNKy9KaXIxd0FOR2ZYbUJjRWVxSVZURDdHV0tsUzNQOFZocHlBQlVrTG9oeXE3TjVKM3hVS2JoY3RhelQ4QT0ifQ%3D%3D][Three Considerations For Planning Your Docker Datacenter Deployment]]
 + [[http://blog.arungupta.me/health-check-docker-containers/][Health check status in Docker]]
++ [[http://www.ybrikman.com/writing/2015/11/11/running-docker-aws-ground-up/][Run Docker Containers on AWS]]
+
