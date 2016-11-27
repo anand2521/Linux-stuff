@@ -16,6 +16,7 @@
   + GUI alternatives like Firestarter can be used as an alternative to
     iptables.
   
+
 * Types of Chains 
   Chains are used to control the behavior of different connections. 
   + Input Chains ::
@@ -67,6 +68,17 @@ iptables --policy FORWARD DROP
 #+END_SRC
 
 
+* Rules tables for packet processing functionality
+  + filter :: 
+    + It contains the actual firewall filtering rules. 
+    + It includes INPUT, OUTPUT, FORWARd chains 
+  
+  + nat ::
+    + contains the rules for Source and Destination Address
+    + Port translation
+    + Chains include PREROUTING(DNAT/REDIRECT), OUTPUT, POSTROUTING(SNAT/MASQURADE)
+    
+
 * Connection-specific Responses
   + Accept :: Allow the connection
   + Drop :: Drop the connection. Source will not realize that system exists.
@@ -99,6 +111,7 @@ iptables --policy FORWARD DROP
     iptables -A INPUT -p tcp --dport ssh -j DROP    
     #+END_SRC
     
+
 * Connection states
   Many protocols are going to require two-way communication. Example SSH, both input and output chain need a rule to allow.
   States can be helpful if you want SSH coming into your system to be allowed.
@@ -113,15 +126,19 @@ iptables --policy FORWARD DROP
   sudo /sbin/iptables-save
   #+END_SRC
  
+
 * Lists currently configured rules 
   #+BEGIN_SRC command
   iptables -L -v
   #+END_SRC
+
 
 * Clear/Flush iptables rules 
   #+BEGIN_SRC command
   iptables -F
   #+END_SRC
 
+
 * References
   + [[http://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/][How to Geek ?]]
+  + [[http://www.informit.com/articles/article.aspx?p=421057&seqNum=4][Basic syntax rules]]
