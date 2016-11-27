@@ -108,5 +108,20 @@ iptables --policy FORWARD DROP
   #+END_SRC
 
 
+* Save your iptables 
+  #+BEGIN_SRC 
+  sudo /sbin/iptables-save
+  #+END_SRC
+ 
+* Lists currently configured rules 
+  #+BEGIN_SRC command
+  iptables -L -v
+  #+END_SRC
+
+* Clear/Flush iptables rules 
+  #+BEGIN_SRC command
+  iptables -F
+  #+END_SRC
+
 * References
   + [[http://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/][How to Geek ?]]
