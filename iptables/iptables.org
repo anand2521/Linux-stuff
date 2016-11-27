@@ -1,0 +1,112 @@
+#+Title: Introduction to Iptables 
+#+Date: November 27, 2016
+#+Author: Ashay Maheshwari
+
+
+* Introduction
+  + iptables is a command-line firewall utility that uses policy
+    chains to allow or block traffic.
+  + When a connection tries to establish itself on your system,
+    iptables looks for a rule in its list to match it to. If it
+    doesn¡¯t find one, it resorts to the default action.
+  + To install iptables 
+    #+BEGIN_SRC command
+    sudo apt-get install iptables 
+    #+END_SRC
+  + GUI alternatives like Firestarter can be used as an alternative to
+    iptables.
+  
+* Types of Chains 
+  Chains are used to control the behavior of different connections. 
+  + Input Chains ::
+                   This chain is used to control the behavior for
+                   incoming connections. For example, if user attempts
+                   to SSH into your PC/server, iptables will attempt
+                   to match the IP address and port to a rule in the
+                   input chain.
+
+  + Forward chains :: 
+                      This chain is used for incoming connections that
+                      are not actually being delivered locally. For
+                      exmaple, router - data is always sent to it but
+                      is desined to be delivered somewhere. Hence data
+                      is just forwarded to its target. This chain can
+                      be used for NATing, routing.
+
+   + Output chain ::
+                    This chain is used for outgoing connections. If you
+                    try to ping google.com, iptables will check is
+                    output chain to see what the rules are rearding
+                    ping and google.com before making the decision to
+                    allow or deny.
+
+
+* Policy chain default behavior
+  This defined what do you want iptables to do if the connection doesnot match any existing rules.
+  To see default policy configured, use the command as below and see the output 
+#+BEGIN_SRC command
+vlead@vlead-H81M-S:~/repos/git-repos/Linux-stuff/iptables$ sudo iptables -L | grep policy
+Chain INPUT (policy ACCEPT)
+Chain FORWARD (policy ACCEPT)
+Chain OUTPUT (policy ACCEPT)
+#+END_SRC   
+
+Here is the command to accept connections by default 
+#+BEGIN_SRC command
+iptables --policy INPUT ACCEPT
+iptables --policy OUTPUT ACCEPT
+iptables --policy FORWARD ACCEPT
+#+END_SRC
+
+If you want to allow specific connections and DROP rest, configure the default
+behavior to DROP
+#+BEGIN_SRC command
+iptables --policy INPUT DROP
+iptables --policy OUTPUT DROP
+iptables --policy FORWARD DROP
+#+END_SRC
+
+
+* Connection-specific Responses
+  + Accept :: Allow the connection
+  + Drop :: Drop the connection. Source will not realize that system exists.
+  + Reject :: Don't allow the connection but send back an error.
+   
+
+* Allowing or blocking specific connections
+  + iptables starts from top of its list and then goes through each rules until it finds one. 
+  + If you want to insert a rule at the end, use =iptables -A= to append rules to existing chain.
+  + If you want to insert rules above another, use =iptables -I [chain] [number]
+
+
+* Sample rules
+  + How to block all connection from IP address 10.10.10.10
+    #+BEGIN_SRC command
+    iptables -A INPUT -s 10.10.10.10 -j DROP
+    #+END_SRC
+  + Block all IP address in te 10.10.10.0/24 range 
+    #+BEGIN_SRC command
+    iptables -A INPUT -s 10.10.10.0/24 -j DROP
+    iptables -A INPUT -s 10.10.10.0/255.255.255.0 -j DROP
+    #+END_SRC
+  
+  + Block SSH connections from 10.10.10.10
+    #+BEGIN_SRC command
+    iptables -A INPUT -p tcp --dport ssh -s 10.10.10.10 -j DROP
+    #+END_SRC
+  + Block ssh connection from any ip address
+    #+BEGIN_SRC command
+    iptables -A INPUT -p tcp --dport ssh -j DROP    
+    #+END_SRC
+    
+* Connection states
+  Many protocols are going to require two-way communication. Example SSH, both input and output chain need a rule to allow.
+  States can be helpful if you want SSH coming into your system to be allowed.
+  #+BEGIN_SRC command
+  iptables -A INPUT -p tcp --dport ssh -s 10.10.10.10 -m state --state NEW, ESTABLISHED -j ACCPET
+  iptables -A OUTPUT -p tcp -sport 22 -d 10.10.10.10 -m state --state ESTABLISHED -j ACCEPT
+  #+END_SRC
+
+
+* References
+  + [[http://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/][How to Geek ?]]
