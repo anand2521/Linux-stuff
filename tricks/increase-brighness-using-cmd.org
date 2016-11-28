@@ -25,3 +25,6 @@
     #+BEGIN_SRC command
     cat /sys/class/backlight/intel_backlight/max_brightness 
     #+END_SRC
+
+* Reference
+  http://askubuntu.com/questions/149054/how-to-change-lcd-brightness-from-command-line-or-via-script
