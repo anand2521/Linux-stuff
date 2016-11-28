@@ -1,0 +1,27 @@
+#+Title: Increase brightness of your ubuntu machine using command line 
+#+Date: November 28, 2016
+#+Author: Ashay Maheshwari
+
+
+* Increase brigtness of your computer using command line/file in ubuntu 14.04
+  + I needed this when suddenly keys controlling the brigtness of my
+    machine stopped doing so.
+  + Brightness is stored in Ubuntu(any linux) in the form of a value in a file.
+  + By chaning the value, one can increase or decrease the brightness.
+  + File which stores the brightness value is 
+    #+BEGIN_SRC command
+    /sys/class/backlight/intel_backlight/brightness
+    #+END_SRC
+    If you the see the content of this file, you will get an integer value.
+    #+BEGIN_SRC command
+    $ cat /sys/class/backlight/intel_backlight/brightness
+      450
+    #+END_SRC
+  + By changing this value to greater or lesser number you can control your brightness
+    #+BEGIN_SRC command
+    echo 400 > /sys/class/backlight/intel_backlight/brightness
+    #+END_SRC
+  + The maximum allowed value of brightness is stored by the file 
+    #+BEGIN_SRC command
+    cat /sys/class/backlight/intel_backlight/max_brightness 
+    #+END_SRC
