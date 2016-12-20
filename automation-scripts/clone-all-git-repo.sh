@@ -2,6 +2,9 @@
 #Author : Ashay Maheshwari
 #Purpose : To clone all github repositories of mentioned organization 
 
+#Command iven below is instead working #
+#USER=foo; curl "https://api.github.com/users/$USER/repos?per_page=1000" | grep -w clone_url | grep -o '[^"]\+://.\+.git' | xargs -L1 git clone
+##
 
 USAGE () {
  echo ""
@@ -19,7 +22,7 @@ then
 fi
 
 USER=$1;                                 #Initialize the username or organization name 
-BKP_DIR="/root/deleteme"                 #Give the base path where every repository is cloned 
+BKP_DIR="/home/vlead/repos/virtual-labs-repo"                 #Give the base path where every repository is cloned 
 GIT_REPO_INFO="git-repo-info.txt"        #Variable contain the file name to hold all info related to git repo
 URL_TO_CLONE="url_to_clone.txt"          #Varibale contain the file name to hold urls of all repo to be cloned 
 REPOSITORY_NAMES="repository_names.txt"  #Variable contain the file name to hold the names of all repositories 
