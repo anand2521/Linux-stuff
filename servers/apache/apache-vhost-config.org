@@ -1,0 +1,16 @@
+#+Title: Virtual Host configuration in Apache webserver 
+#+Author: Ashay Maheshwari
+#+Date: Dec 28, 2016
+
+* Name based Virtual host configuration in apache 
+  #+BEGIN_SRC config 
+  <VirtualHost *:80>
+    ServerAdmin admin@example.com
+    ServerName lab3.someone.ac.in
+    ServerAlias www.lab3.someone.ac.in
+    DocumentRoot /var/www/html/test1
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+ </VirtualHost>
+
+  #+END_SRC
