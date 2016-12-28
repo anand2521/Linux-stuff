@@ -6,7 +6,8 @@
 * What is Internet ??
   [[./images/internet.jpg]]
 * Cloud  ??
-** What 
+** What it is not ?
+   [[./images/cloud-what-it-is-not.png]]
 ** Why - Features of Cloud computing
   + =On Demand Capabilities=
   + =Pay per use=  allows users to pay for only the services and resources they use.
@@ -19,6 +20,7 @@
 
 * Major Components of Cloud Computing ??
 ** SaSS
+   [[./images/sass.png]]
 ** PaSS
 ** IaSS
 
