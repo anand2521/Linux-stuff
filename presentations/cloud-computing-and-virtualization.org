@@ -1,0 +1,42 @@
+#+Title: Cloud Computing and Virtualization 
+#+Author: Ashay Maheshwari
+#+Date: Dec 28, 2016
+
+* What is Internet ??
+* Cloud Computing ??
+** What 
+** Why
+** Where
+** How
+
+* Major Components of Cloud Computing ??
+** SaSS
+** PaSS
+** IaSS
+
+* Big Examples of Day to Day to access to Cloud ??
+
+* Virtulization
+** What ??
+
+* Without virtualization ??
+
+* Virtualization
+** Why
+** How 
+
+* Types of Virtualization
+** Bare Metal Virtualization
+** OS level Virtualization
+
+* Ways of Virtualization 
+** Virtual Machines based virtualization
+** Container based virtualization
+
+* Difference between VM based virtualization and container based virtualization
+
+* VM based virtualization
+** VirtualBox
+
+* Container Based Virtualization
+** Docker 
