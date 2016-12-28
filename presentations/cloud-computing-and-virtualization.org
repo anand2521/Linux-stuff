@@ -5,9 +5,15 @@
   [[./images/question.jpg]]
 * What is Internet ??
   [[./images/internet.jpg]]
-* Cloud Computing ??
+* Cloud  ??
 ** What 
-** Why
+** Why - Features of Cloud computing
+  + =On Demand Capabilities=
+  + =Pay per use=  allows users to pay for only the services and resources they use.
+  + =Easy Maintenance= 
+  + =Location Free=
+  + =Rapid Elasticity Scalability=
+
 ** Where
 ** How
 
