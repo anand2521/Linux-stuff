@@ -2,8 +2,9 @@
 #+Author: Ashay Maheshwari
 #+Date: Dec 28, 2016
 
-[[./images/question.jpg]]
+  [[./images/question.jpg]]
 * What is Internet ??
+  [[./images/internet.jpg]]
 * Cloud Computing ??
 ** What 
 ** Why
