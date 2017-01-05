@@ -5,14 +5,24 @@
 
 * Introduction to Virtualization ?
 ** What is Virtualization ??
+   Virtualization is a combination of software and hardware
+   engineering that creates Virtual Machines (VMs) - an abstraction of
+   the computer hardware that allows a single machine to act as if it
+   where many machines.
+   [[./images/virtualization.png]]
 ** What is without Virtualization ??
+   [[./images/without-virtualization.png]]
 ** How does Virtulization make Life@DataCentres easy ??
+
 ** Why Virtualization  
    + Reduced cost
    + Easier backup and disaster recovery 
    + Efficient IT Operations
    + Less Heat
    + Easy migrations 
+   + Run multiple difference OS on a single machine 
+** Lets understand the difference 
+   [[./images/virtualization-diff.png]]
 ** Types of Virtualization
 *** On the basis of activity 
    + Storage Virtualization 
@@ -32,6 +42,8 @@
      Docker, OpenVZ, LxC
 * Introduction to Cloud Computing ?
 ** What is Cloud ??
+** What it is not ??
+ [[./images/cloud-what-it-is-not.png]]
 ** What is Computing ??
 ** What is Cloud Computing ??
 ** What without Cloud computing ??
