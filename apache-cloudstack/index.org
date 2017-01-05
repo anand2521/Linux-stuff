@@ -48,6 +48,10 @@
    + Container based Virtualization  ::
      Docker, OpenVZ, LxC
 
+
+** Problem Solved -- No way
+    [[./images/funny-sys-admin.jpg]]
+
 * Introduction to Cloud Computing ?
 
 ** What is Computing ??
@@ -74,7 +78,7 @@
    + No Google Drives
    + No Dropbox, Instagram, 
    + Weak IT Operations -
-     [[../images/funny-sys-admin.jpg]]
+    
 ** Advantages of Cloud computing ??
 
 ** Three layers of Cloud Computing or three platforms of cloud computing 
