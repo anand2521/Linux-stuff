@@ -1,0 +1,41 @@
+#+Title:  How to set up a private cloud for IAAS
+#+Author: Ashay Maheshwari
+#+Date: January 5, 2017
+
+
+* Introduction 
+  This document can be used to refer setting up Apache Cloudtack AIO
+  (all in one) setup.
+
+* Introduction to Virtualization ?
+** What is virtualization ??
+** What is without Virtualization ??
+** How does Virtulization make Life@DataCentres easy ??
+** Types of Virtualization
+*** On the basis of activity 
+   + Storage Virtualization 
+   + Compute Virtualization 
+   + Network Virtualization 
+*** On the basic of type 
+   + Bare metal - type 1 virtualization
+   + OS level -   type 2 virtualization 
+*** On the basis of operational way
+   + VM based virtualization
+   + Container based Virtualization
+
+** Virtualization technologies examples 
+   + VM based virtualization ::
+     Citrix, VM Ware, Oracle Virtual Box
+   + Container based Virtualization  ::
+     Docker, OpenVZ, LxC
+** What are we going to use now ??
+   + Oracle Virtual Box 
+   
+* Introduction to Cloud Computing ?
+** What is Cloud ??
+** What is Computing ??
+** What is Cloud Computing ??
+
+
+
+ 
