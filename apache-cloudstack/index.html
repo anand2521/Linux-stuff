@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>How to set up a private cloud for IaaS</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="How to set up a private cloud for IaaS"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="January 5, 2017"/>
+<meta name="author" content="Ashay Maheshwari"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">How to set up a private cloud for IaaS</h1>
+
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Introduction to Virtualization ?</a>
+<ul>
+<li><a href="#sec-1-1">1.1 What is Virtualization ??</a></li>
+<li><a href="#sec-1-2">1.2 What is without Virtualization ??</a></li>
+<li><a href="#sec-1-3">1.3 How does Virtulization make Life@DataCentres easy ??</a></li>
+<li><a href="#sec-1-4">1.4 Why Virtualization</a></li>
+<li><a href="#sec-1-5">1.5 Lets understand the difference</a></li>
+<li><a href="#sec-1-6">1.6 Types of Virtualization</a>
+<ul>
+<li><a href="#sec-1-6-1">1.6.1 On the basis of activity</a></li>
+<li><a href="#sec-1-6-2">1.6.2 On the basic of type</a></li>
+<li><a href="#sec-1-6-3">1.6.3 On the basis of operational way</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-7">1.7 Examples Virtualization technologies</a></li>
+<li><a href="#sec-1-8">1.8 Problem Solved &ndash; No way</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 Introduction to Cloud Computing ?</a>
+<ul>
+<li><a href="#sec-2-1">2.1 What is Computing ??</a></li>
+<li><a href="#sec-2-2">2.2 What is Cloud ??</a></li>
+<li><a href="#sec-2-3">2.3 What it is not ??</a></li>
+<li><a href="#sec-2-4">2.4 What is Cloud Computing ??</a></li>
+<li><a href="#sec-2-5">2.5 What without Cloud computing ??</a></li>
+<li><a href="#sec-2-6">2.6 Advantages of Cloud computing ??</a></li>
+<li><a href="#sec-2-7">2.7 Three layers of Cloud Computing or three platforms of cloud computing</a>
+<ul>
+<li><a href="#sec-2-7-1">2.7.1 IaaS - Infrastrucuture as a Service</a></li>
+<li><a href="#sec-2-7-2">2.7.2 PaaS - Platform as a Service</a></li>
+<li><a href="#sec-2-7-3">2.7.3 SaaS - Software as a Service</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-8">2.8 Well known Cloud service provider</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Introduction to Virtualization ?</h2>
+<div class="outline-text-2" id="text-1">
+
+
+
+</div>
+
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> What is Virtualization ??</h3>
+<div class="outline-text-3" id="text-1-1">
+
+<p>   Virtualization is a combination of software and hardware
+   engineering that creates Virtual Machines (VMs) - an abstraction of
+   the computer hardware that allows a single machine to act as if it
+   where many machines.
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> What is without Virtualization ??</h3>
+<div class="outline-text-3" id="text-1-2">
+
+<p>   <img src="./images/without-virtualization.png"  alt="./images/without-virtualization.png" />
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> How does Virtulization make Life@DataCentres easy ??</h3>
+<div class="outline-text-3" id="text-1-3">
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Why Virtualization</h3>
+<div class="outline-text-3" id="text-1-4">
+
+<ul>
+<li>Reduced cost
+</li>
+<li>Easier backup and disaster recovery 
+</li>
+<li>Efficient IT Operations
+</li>
+<li>Less Heat
+</li>
+<li>Easy migrations 
+</li>
+<li>Run multiple difference OS on a single machine 
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Lets understand the difference</h3>
+<div class="outline-text-3" id="text-1-5">
+
+<p>   <img src="./images/virtualization-diff.png"  alt="./images/virtualization-diff.png" />
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Types of Virtualization</h3>
+<div class="outline-text-3" id="text-1-6">
+
+
+</div>
+
+<div id="outline-container-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> On the basis of activity</h4>
+<div class="outline-text-4" id="text-1-6-1">
+
+<ul>
+<li>Storage Virtualization 
+</li>
+<li>Compute Virtualization 
+</li>
+<li>Network Virtualization 
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2"><span class="section-number-4">1.6.2</span> On the basic of type</h4>
+<div class="outline-text-4" id="text-1-6-2">
+
+<ul>
+<li>Bare metal - type 1 virtualization
+</li>
+<li>OS level -   type 2 virtualization 
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-3" class="outline-4">
+<h4 id="sec-1-6-3"><span class="section-number-4">1.6.3</span> On the basis of operational way</h4>
+<div class="outline-text-4" id="text-1-6-3">
+
+<ul>
+<li>VM based virtualization
+</li>
+<li>Container based Virtualization
+</li>
+</ul>
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> Examples Virtualization technologies</h3>
+<div class="outline-text-3" id="text-1-7">
+
+<dl>
+<dt>VM based virtualization</dt><dd>
+<p>
+     Citrix, VM Ware, Oracle Virtual Box
+</p></dd>
+<dt>Container based Virtualization </dt><dd>
+<p>
+     Docker, OpenVZ, LxC
+</p></dd>
+</dl>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> Problem Solved &ndash; No way</h3>
+<div class="outline-text-3" id="text-1-8">
+
+<p>    <img src="./images/funny-sys-admin.jpg"  alt="./images/funny-sys-admin.jpg" />
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Introduction to Cloud Computing ?</h2>
+<div class="outline-text-2" id="text-2">
+
+
+
+</div>
+
+<div id="outline-container-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> What is Computing ??</h3>
+<div class="outline-text-3" id="text-2-1">
+
+
+<p>
+   Computing is the process of manipulation/caculation.  2+2 is
+   computating/computaiton. That's what computers do.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> What is Cloud ??</h3>
+<div class="outline-text-3" id="text-2-2">
+
+<p>   "The Cloud" or "The Network Cloud" is an IT infrastrucuture sitting
+   somewhere which contains compute resources like servers, storage,
+   network, memory etc.
+</p>
+<p>   
+   <img src="./images/cloud.jpg"  alt="./images/cloud.jpg" />
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> What it is not ??</h3>
+<div class="outline-text-3" id="text-2-3">
+
+<p> <img src="./images/cloud-what-it-is-not.png"  alt="./images/cloud-what-it-is-not.png" />
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> What is Cloud Computing ??</h3>
+<div class="outline-text-3" id="text-2-4">
+
+<p>   Cloud computing is the delivery of computing services—servers,
+   storage, databases, networking, software, analytics and more—over
+   the Internet (“the cloud”).
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> What without Cloud computing ??</h3>
+<div class="outline-text-3" id="text-2-5">
+
+<ul>
+<li>No Google Drives
+</li>
+<li>No Dropbox, Instagram, 
+</li>
+<li>Weak IT Operations -
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Advantages of Cloud computing ??</h3>
+<div class="outline-text-3" id="text-2-6">
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Three layers of Cloud Computing or three platforms of cloud computing</h3>
+<div class="outline-text-3" id="text-2-7">
+
+
+</div>
+
+<div id="outline-container-2-7-1" class="outline-4">
+<h4 id="sec-2-7-1"><span class="section-number-4">2.7.1</span> IaaS - Infrastrucuture as a Service</h4>
+<div class="outline-text-4" id="text-2-7-1">
+
+</div>
+
+</div>
+
+<div id="outline-container-2-7-2" class="outline-4">
+<h4 id="sec-2-7-2"><span class="section-number-4">2.7.2</span> PaaS - Platform as a Service</h4>
+<div class="outline-text-4" id="text-2-7-2">
+
+</div>
+
+</div>
+
+<div id="outline-container-2-7-3" class="outline-4">
+<h4 id="sec-2-7-3"><span class="section-number-4">2.7.3</span> SaaS - Software as a Service</h4>
+<div class="outline-text-4" id="text-2-7-3">
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2-8" class="outline-3">
+<h3 id="sec-2-8"><span class="section-number-3">2.8</span> Well known Cloud service provider</h3>
+<div class="outline-text-3" id="text-2-8">
+
+<ul>
+<li>AWS - Amazon Web Services, Digital Ocean, Microsoft Azure, Google Cloud
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: January 5, 2017</p>
+<p class="author">Author: Ashay Maheshwari</p>
+<p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.3f with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>
