@@ -175,6 +175,7 @@
       require plugins.
     + SaaS Examples: Google Apps, Salesforce, Workday, Concur, Citrix
       GoToMeeting, Cisco WebEx
+
 ** Well known Cloud service provider 
    + AWS - Amazon Web Services, Digital Ocean, Microsoft Azure, Google Cloud
 
@@ -214,6 +215,160 @@
     http://your-ip/owncloud
     #+END_SRC
   
+
+* Setting up the Hybrid Cloud 
+
+** What do you need ??
+   + Credit Card - Money 
+   + Knowledge on using public cloud 
+   + Decision on using one of the Public Cloud service provider.
+   + Active Internet connection.
+
+** A tour to Amazon Web Services  
+
+
+* Lets set our Enterprise Cloud 
+
+** What do we need ??
+   + A machine with below given configurations -
+     #+BEGIN_SRC command
+     Operating system - Ubuntu 14.04 ( any Linux, recommended - Ubutnu 14.04 / CentOS 6.X or 7 )
+     RAM - Minimum of 4 GB, recommended 8 GB
+     Hard disk - Minimum of 250 GB, recommended 500 GB
+     Active Internet Connection 
+     #+END_SRC
+
+
+** Available Options 
+   + Openstack 
+   + Apache Cloud stack 
+
+
+** Installing Apache Cloudstack on Ubuntu 14.04 
+
+*** Setup and configure your virtual machine 
+   + Create a Ubuntu 14.04 virtual machine in Oracle Virtual Box 
+   + Setup the interface files 
+     #+BEGIN_SRC command
+     vim /etc/network/interfaces
+     #+END_SRC
+   + Write the following configuration in your /etc/network/interfaces file 
+     #+BEGIN_SRC command
+     auto lo
+     iface lo intet loopback 
+ 
+     auto eth0
+     iface eth0 inet static
+            address 192.168.56.10
+            netmask 255.255.255.0
+
+     auto eth1
+     iface eth1 inet dhcp 
+     #+END_SRC
+   + Turn off your your Virtual Machine
+   + Go to File-->Preferences-->Network-->Host only Networks 
+   + Click on the + symbol and create a "Host only Adapter"
+   + Double click on the "host only Adapter" you created just now 
+   + Give 
+     #+BEGIN_SRC command
+     IPv4 Address as - 192.168.56.1
+     Network Mask - 255.255.255.0
+     #+END_SRC
+   + Click Settings-->Network-->Adapter 1
+   + Select Host only Adapter from the Drop down and select your "Host
+     Only Adapter" name.
+   + Select Adapter Type to "Paravirtualized Network"
+   + Allow Premiscuos mode 
+   + Check on "Cable Connected" 
+   + Click on "Adapter 2"
+   + Select NAT and click OK.
+   + Start your Virtual Machine 
+   
+
+*** Install necessary packages 
+    + Update sources list 
+      #+BEGIN_SRC command
+      sudo apt-get update 
+      #+END_SRC
+    + Add source repository to sources list
+      #+BEGIN_SRC command
+      sudo vim /etc/apt/sources.list.d/cloudstack.list
+      #+END_SRC
+    + Write the deb package URL in this file 
+      #+BEGIN_SRC command
+      deb http://cloudstack.apt-get.eu/ubuntu precise 4.4
+      #+END_SRC
+    + Become root user
+      #+BEGIN_SRC command
+      sudo su -
+      #+END_SRC
+    + Download the sources using wget command 
+      #+BEGIN_SRC command
+      wget -O - http://cloudstack.apt-get.eu/release.asc | apt-key add -
+      #+END_SRC
+    + Update 
+      #+BEGIN_SRC command
+      apt-get update
+      #+END_SRC
+    + Install Cloudstack management 
+      #+BEGIN_SRC command
+      apt-get  install cloudstack-management
+      #+END_SRC
+    + Install MySQL server 
+      #+BEGIN_SRC command
+      apt-get install mysql-server 
+      #+END_SRC
+    + Open file /etc/mysql/my.cnf 
+      #+BEGIN_SRC command
+      [mysqld]
+      innodb_rollback_on_timeout=1
+      innodb_lock_wait_timeout=600
+      max_connection=350
+      log-bin=mysql-bin
+      binlog-format = 'ROW'
+      #+END_SRC
+    + Restart mysql service 
+      #+BEGIN_SRC command
+      service mysql restart
+      #+END_SRC
+    + Configure mysql 
+      #+BEGIN_SRC command
+      mysql_secure_installation
+      #+END_SRC
+    + Setup the Cloudstack database
+      #+BEGIN_SRC 
+      cloudstack-setup-databases cloud:<your-password>@localhost --deploy-as=root:<your-password> -i 192.168.56.10 
+      #+END_SRC
+    + Run cloudstack management 
+      #+BEGIN_SRC command
+      sudo cloudstack-setup-management
+      #+END_SRC  
+*** Setitng up Storage NFS 
+    + Create directory
+      #+BEGIN_SRC command
+      sudo mkdir -p /export/primary 
+      sudo mkdir -p /export/secondary
+      #+END_SRC 
+    + Install NFS-Kernel-server
+      #+BEGIN_SRC command
+      sudo apt-get install nfs-kernel-server
+      #+END_SRC
+    + Open file  /etc/exports
+      #+BEGIN_SRC command
+      sudo vim /etc/exports
+      /export *(rw,async,no_root_squash,no_subtree_check)
+      #+END_SRC
+    + Install NFS common
+      #+BEGIN_SRC command
+      sudo apt-get install nfs-common
+      #+END_SRC
+    + Comfigure nfs-common
+      #+BEGIN_SRC command
+      sudo vim /etc/default/nfs-common 
+      STATDOPTS="--port 662 --outgoing-port  2020
+      NEED_STATD=yes
+      #+END_SRC
+     
 * References 
   + https://www.howtoforge.com/how-to-install-owncloud-7-on-ubuntu-14.04
   + https://apprenda.com/library/paas/iaas-paas-saas-explained-compared/
