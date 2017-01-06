@@ -1,14 +1,19 @@
-#+Title:  How to set up a private cloud for IaaS
-#+Author: Ashay Maheshwari
-#+Date: January 5, 2017
+#+TITLE:  How to set up a private cloud for IaaS
+#+AUTHOR: Ashay Maheshwari
+#+DATE: [2017-01-05  Fri]
+#+PROPERTY: results output
+#+PROPERTY: exports code
+#+SETUPFILE: ./org-templates/level-0.org
+#+options: ^:nil
 
 
-* What am I going to cover ?
+* What are we going to learn today ??
   + Basics of Virtualization and Cloud Computing 
   + Setting up our own Dropbox - The ownCloud
   + Setting up our on Cloud service 
   
-* What do you need ?
+
+* What do you need ??
   + System with atleast 4 GB RAM
   + Ubuntu 14.04 OS 
   + Minimum 100 GB of Hard disk 
@@ -16,7 +21,7 @@
   + Editor like vim or vi or gedit
  
 
-* Introduction to Virtualization ?
+* Introduction to Virtualization ??
 
 ** What is Virtualization ??
    Virtualization is a combination of software and hardware
@@ -78,7 +83,7 @@
           
    
 
-
+   
 ** Types of Virtualization
 *** On the basis of activity 
    + Storage Virtualization 
@@ -88,6 +93,7 @@
 *** On the basis of operational way
    + VM based virtualization
    + Container based Virtualization
+
 
 ** Examples Virtualization technologies  
    + VM based virtualization ::
@@ -100,7 +106,7 @@
     [[./images/funny-sys-admin.jpg]]
 
 
-* Introduction to Cloud Computing ?
+* Introduction to Cloud Computing 
 
 ** What is Computing ??
 
@@ -143,6 +149,7 @@
     
 ** Well known Cloud service provider 
    + AWS - Amazon Web Services, Digital Ocean, Microsoft Azure, Google Cloud
+
 
 ** Types of Cloud
    + Public Cloud :: AWS, Digital Ocean, Microsoft Azure
