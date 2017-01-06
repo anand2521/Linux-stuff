@@ -15,6 +15,7 @@
 ** What is without Virtualization ??
    [[./images/without-virtualization.png]]
 
+
 ** How does Virtulization make Life@DataCentres easy ??
 
 
@@ -26,17 +27,51 @@
    + Easy migrations 
    + Run multiple difference OS on a single machine 
 
+
 ** Lets understand the difference 
    [[./images/virtualization-diff.png]]
+
+
+** Hypervisors - Virtual Machine Monitors 
+  The hypervisor (also called a virtual machine monitor) is the
+  low-level program that allows multiple operating systems to run
+  concurrently on a single host computer.
+
+*** Type of hypervisor
+   + type 1 virtualization - Bare metal or Native Hypervisor 
+   + type 2 virtualization - Hosted Hypervisor
+  
+   |------+------------------------------------------------------------------+-------------------------------------------------|
+   | S.No | Bare Metal                                                       | OS level                                        |
+   |------+------------------------------------------------------------------+-------------------------------------------------|
+   |    1 | Directly installed in Hardware                                   | Installed and runs on host Operating System     |
+   |------+------------------------------------------------------------------+-------------------------------------------------|
+   |    2 | The hypervisor is small as its main task is sharing and          | OS manages the resource allocation              |
+   |      | managing hardware resources between different operating systems. |                                                 |
+   |------+------------------------------------------------------------------+-------------------------------------------------|
+   |    3 | A major advantage is that any problems in one virtual machine    | Independent of VM                               |
+   |      | or guest operating system do not affect the other guest          |                                                 |
+   |      | operating systems running on the hypervisor.                     |                                                 |
+   |------+------------------------------------------------------------------+-------------------------------------------------|
+   |    4 | Any issue in hypervisor will destroy the full VMs running in it  | Any issue with OS will destroy all the VMs      |
+   |      |                                                                  | hosted on it                                    |
+   |------+------------------------------------------------------------------+-------------------------------------------------|
+   |    5 | Examples - VMware ESXi Server, Microsoft Hyper-V,                | Examples VMware Workstation,  Microsoft Virtual |
+   |      | Citrix/Xen Server                                                | PC, Oracle Virtual Box                          |
+   |------+------------------------------------------------------------------+-------------------------------------------------|
+  
+   
+            
+          
+   
+
 
 ** Types of Virtualization
 *** On the basis of activity 
    + Storage Virtualization 
    + Compute Virtualization 
    + Network Virtualization 
-*** On the basic of type 
-   + Bare metal - type 1 virtualization
-   + OS level -   type 2 virtualization 
+
 *** On the basis of operational way
    + VM based virtualization
    + Container based Virtualization
@@ -52,6 +87,7 @@
 ** Problem Solved -- No way
     [[./images/funny-sys-admin.jpg]]
 
+
 * Introduction to Cloud Computing ?
 
 ** What is Computing ??
@@ -59,6 +95,7 @@
    Computing is the process of manipulation/caculation.  2+2 is
    computating/computaiton. That's what computers do.
    
+
 ** What is Cloud ??
    "The Cloud" or "The Network Cloud" is an IT infrastrucuture sitting
    somewhere which contains compute resources like servers, storage,
@@ -66,25 +103,31 @@
    
    [[./images/cloud.jpg]]
    
+
 ** What it is not ??
  [[./images/cloud-what-it-is-not.png]]
+
 
 ** What is Cloud Computing ??
    Cloud computing is the delivery of computing services—servers,
    storage, databases, networking, software, analytics and more—over
    the Internet (“the cloud”).
 
+
 ** What without Cloud computing ??
    + No Google Drives
    + No Dropbox, Instagram, 
    + Weak IT Operations -
     
+
 ** Advantages of Cloud computing ??
+
 
 ** Three layers of Cloud Computing or three platforms of cloud computing 
 *** IaaS - Infrastrucuture as a Service 
 *** PaaS - Platform as a Service 
 *** SaaS - Software as a Service 
+
 
 ** Well known Cloud service provider 
    + AWS - Amazon Web Services, Digital Ocean, Microsoft Azure, Google Cloud
@@ -98,3 +141,11 @@
 
 
  
+
+** Types of Cloud
+   + Public Cloud ::
+   + Private Cloud ::
+   + Hybrid Cloud ::
+
+* References 
+  + https://www.howtoforge.com/how-to-install-owncloud-7-on-ubuntu-14.04
