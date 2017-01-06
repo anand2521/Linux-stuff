@@ -343,6 +343,7 @@
       #+BEGIN_SRC command
       sudo cloudstack-setup-management
       #+END_SRC  
+
 *** Setitng up Storage NFS 
     + Create directory
       #+BEGIN_SRC command
@@ -368,7 +369,160 @@
       STATDOPTS="--port 662 --outgoing-port  2020
       NEED_STATD=yes
       #+END_SRC
-     
+    + Configure modprob lock 
+      #+BEGIN_SRC command
+      sudo vim /etc/modprobe.d/lockd.conf
+      options lockd nlm_udpport=32769 nlm_tcpport=32803
+      #+END_SRC 
+    + Restart NFS service 
+      #+BEGIN_SRC 
+      service nfs-kernel-server restart
+      #+END_SRC 
+    + Check your mounts using show mount
+      #+BEGIN_SRC command
+      showmount -e 127.0.0.1
+      #+END_SRC
+    + Create directories in /mnt/
+      #+BEGIN_SRC command
+      sudo mkdir -p /mnt/primary
+      sudo mkdir -p /mnt/secondary
+      #+END_SRC
+    + Add mount points in /etc/fstab
+      #+BEGIN_SRC command
+      sudo vim /etc/fstab
+      #+END_SRC
+    + Add the following lines 
+      #+BEGIN_SRC command
+      192.168.56.10:/export/primary    /mnt/primary   nfs  rsize=8192,timeo=14,intr,vers=3,noauto   0   2 
+      192.168.56.10:/export/secondary    /mnt/secondary   nfs  rsize=8192,timeo=14,intr,vers=3,noauto   0   2 
+      #+END_SRC
+    + Mount the folder/partitions
+      #+BEGIN_SRC command
+      sudo mount /mnt/primary
+      sudo mount /mnt/secondary
+      #+END_SRC
+
+
+
+*** Initiate a KVM image in storage 
+   + Configure cloudstack to point to the storage space and download one
+     #+BEGIN_SRC command
+     sudo /usr/share/cloudstack-common/scripts/storage/secondary/cloud-install-sys-tmplt -m /mnt/secondary -u http://cloudstack.apt-get.eu/systemvm/4.4/systemvm64template-4.4.1-7-kvm.qcow2.bz2 -h kvm -F
+     #+END_SRC
+   + Start cloudstck service 
+     #+BEGIN_SRC command
+     sudo service cloudstack-management start
+     #+END_SRC
+   
+*** Access Cloudstack GUI and install 
+    + Access cloudstack GUI using Web browser
+      #+BEGIN_SRC command
+      URL - http://<your-ip>:8080/client
+      #+END_SRC
+    + Provide username and password default is (admin,password)
+    + Change your password 
+    + Add Zone 
+      #+BEGIN_SRC command
+      Name   : czone
+      DNS 1  : 192.168.56.1
+      Internal  DNS 1 : 192.168.56.1 
+      #+END_SRC
+    + Add Pod
+      #+BEGIN_SRC command
+      Name : cpod
+      Gateway : 192.168.56.1
+      Netmask 255.255.255.0  
+      IP Range - 192.168.56.160 to 192.168.56.169 
+      #+END_SRC
+    + Add guest network 
+      #+BEGIN_SRC command
+      Gateway : 192.168.56.1
+      Netmask : 255.255.255.0
+      IP Range : 192.168.56.170 to 192.168.56.230
+      #+END_SRC
+    + Add Cluster 
+      #+BEGIN_SRC command
+      Hypervisor : KVM
+      Name : ccluster
+      #+END_SRC
+    + Add host
+      #+BEGIN_SRC command
+      Name : csmgmt
+      Username : root
+      Password :  
+      #+END_SRC
+    + Add Primary storage 
+      #+BEGIN_SRC command
+      Name : cprimary
+      Protocol : NFS
+      Scope : Cluster
+      Server : 192.168.56.10
+      Path : /export/primary
+      #+END_SRC
+    + Add Secondary storage
+      #+BEGIN_SRC command
+      NFS Server : 192.168.56.10
+      Provider : NFS
+      Path : /export/secondary
+      #+END_SRC
+    + Click Launch 
+   
+
+*** Install Cloudstack agent 
+    #+BEGIN_SRC command
+    sudo apt-get install cloudstack-agent 
+    #+END_SRC
+
+*** Install and configure KVM
+    + Installation
+      #+BEGIN_SRC command
+      sudo apt-get install qemu-kvm
+      #+END_SRC
+    + Configure 
+      #+BEGIN_SRC command
+      sudo vim /etc/libvirt/qemu.conf
+      Uncomment <vmc_listen = "0.0.0.0">
+      #+END_SRC
+    
+      #+BEGIN_SRC command
+      sudo vim /etc/libvirt/libvirtd.conf
+      Uncomment <listen_tls = 0>
+      Uncomment <listen_tcp = 1>
+      tcp_port = "16509"
+      mdns_adv = 0
+      auth_tcp = "none"
+      #+END_SRC
+
+      #+BEGIN_SRC command
+      sudo vim /etc/default/libvirt-bin
+      libvirtd_opts="-d  -l"
+      #+END_SRC
+    
+      #+BEGIN_SRC command
+      sudo ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/
+      sudo ln -s /etc/apparmor.d/usr.lib.libvirt.virt-aa-helper /etc/apparmor.d/disable/
+      #+END_SRC
+
+      #+BEGIN_SRC command
+      sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.libvirtd
+      sudo apparmor_parser -R /etc/apparmor.d/usr.lib.libvirt.virt-aa-helper
+      #+END_SRC
+      
+    + Restart libvirt service 
+      #+BEGIN_SRC command
+      sudo service libvirt-bin restart
+      #+END_SRC 
+  
+      #+BEGIN_SRC command
+      sudo ufw allow proto tcp from any to any port 22
+      sudo ufw allow proto tcp from any to any port 1798
+      sudo ufw allow proto tcp from any to any port 16509
+      sudo ufw allow proto tcp from any to any port 5900:6100
+      sudo ufw allow proto tcp from any to any port 49152:49216
+      #+END_SRC
+
+    + Reboot your machine 
+
 * References 
   + https://www.howtoforge.com/how-to-install-owncloud-7-on-ubuntu-14.04
   + https://apprenda.com/library/paas/iaas-paas-saas-explained-compared/
