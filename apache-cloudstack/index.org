@@ -31,7 +31,7 @@
   
 
 ** What is without Virtualization ??
-   [[./images/without-virtualization.png]]
+   [[./diagrams/without-virtualization.png]]
 
 
 ** How does Virtulization make Life@DataCentres easy ??
@@ -47,7 +47,7 @@
 
 
 ** Lets understand the difference 
-   [[./images/virtualization-diff.png]]
+   [[./diagrams/virtualization-diff.png]]
 
 
 ** Hypervisors - Virtual Machine Monitors 
@@ -103,7 +103,7 @@
 
 
 ** Problem Solved -- No way
-    [[./images/funny-sys-admin.jpg]]
+    [[./diagrams/funny-sys-admin.jpg]]
 
 
 * Introduction to Cloud Computing 
@@ -119,11 +119,11 @@
    somewhere which contains compute resources like servers, storage,
    network, memory etc.
    
-   [[./images/cloud.jpg]]
+   [[./diagrams/cloud.jpg]]
    
 
 ** What it is not ??
- [[./images/cloud-what-it-is-not.png]]
+ [[./diagrams/cloud-what-it-is-not.png]]
 
 
 ** What is Cloud Computing ??
