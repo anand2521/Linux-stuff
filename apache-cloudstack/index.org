@@ -185,6 +185,36 @@
    + Hybrid Cloud :: Mix of Public and private cloud 
 
 
+* Lets setup our own DropBox - OwnCloud 
+  + OwnCloud is a web application that can store and serve content
+    from a centralized location, much like Dropbox. 
+  + The difference is that ownCloud 7 allows you to host the serving
+    software on your own machines, taking the trust issues out of
+    putting your personal data someone else's server.
+  + Install OwnCloud on your local machine 
+    #+BEGIN_SRC command
+    cd /tmp
+    wget http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_14.04/Release.key
+    sudo apt-key add - < Release.key
+    sudo sh -c "echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_14.04/ /' >> /etc/apt/sources.list.d/owncloud.list"
+    sudo apt-get update
+    sudo apt-get install owncloud -y
+    sudo apt-get install mariadb-server -y
+    
+    #+END_SRC
+  + Configure your mysql database 
+    #+BEGIN_SRC command
+    sudo mysql -u root -p
+    CREATE DATABASE owncloud;
+    GRANT ALL ON owncloud.* to 'owncloud'@'localhost' IDENTIFIED BY 'database_password';
+    exit
+    #+END_SRC
+  + Access
+    #+BEGIN_SRC command
+    http://your-ip/owncloud
+    #+END_SRC
+  
 * References 
   + https://www.howtoforge.com/how-to-install-owncloud-7-on-ubuntu-14.04
   + https://apprenda.com/library/paas/iaas-paas-saas-explained-compared/
+  
