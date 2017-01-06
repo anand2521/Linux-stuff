@@ -3,6 +3,19 @@
 #+Date: January 5, 2017
 
 
+* What am I going to cover ?
+  + Basics of Virtualization and Cloud Computing 
+  + Setting up our own Dropbox - The ownCloud
+  + Setting up our on Cloud service 
+  
+* What do you need ?
+  + System with atleast 4 GB RAM
+  + Ubuntu 14.04 OS 
+  + Minimum 100 GB of Hard disk 
+  + Basic knowledge working on Ubuntu 14.04 or any linux 
+  + Editor like vim or vi or gedit
+ 
+
 * Introduction to Virtualization ?
 
 ** What is Virtualization ??
@@ -76,7 +89,6 @@
    + VM based virtualization
    + Container based Virtualization
 
-
 ** Examples Virtualization technologies  
    + VM based virtualization ::
      Citrix, VM Ware, Oracle Virtual Box
@@ -128,24 +140,15 @@
 *** PaaS - Platform as a Service 
 *** SaaS - Software as a Service 
 
-
+    
 ** Well known Cloud service provider 
    + AWS - Amazon Web Services, Digital Ocean, Microsoft Azure, Google Cloud
 
-
-         
-
-
-
-
-
-
- 
-
 ** Types of Cloud
-   + Public Cloud ::
-   + Private Cloud ::
-   + Hybrid Cloud ::
+   + Public Cloud :: AWS, Digital Ocean, Microsoft Azure
+   + Private Cloud :: Enterprise Cloud
+   + Hybrid Cloud :: Mix of Public and private cloud 
+
 
 * References 
   + https://www.howtoforge.com/how-to-install-owncloud-7-on-ubuntu-14.04
