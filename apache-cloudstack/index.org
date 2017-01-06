@@ -143,10 +143,38 @@
 
 ** Three layers of Cloud Computing or three platforms of cloud computing 
 *** IaaS - Infrastrucuture as a Service 
+    +  Cloud infrastructure services, known as Infrastructure as a
+       Service (IaaS), are self-service models for accessing,
+       monitoring, and managing remote datacenter infrastructures,
+       such as compute (virtualized or bare metal), storage,
+       networking, and networking services (e.g. firewalls).
+    + Instead of having to purchase hardware outright, users can
+      purchase IaaS based on consumption, similar to electricity or
+      other utility billing.
+    +  Examples - AWS, Microsoft Azure, Digital Ocean
 *** PaaS - Platform as a Service 
+ 
+    + Platform as a service (PaaS) is a cloud computing model that
+      delivers applications over the Internet.
+    + In a PaaS model, a cloud provider delivers hardware and software
+      tools -- usually those needed for application development -- to
+      its users as a service.
+    + A PaaS provider hosts the hardware and software on its own
+      infrastructure. As a result, PaaS frees users from having to
+      install in-house hardware and software to develop or run a new
+      application.
+    + Examples - Appear IQ, Mendix, Amazon Web Services (AWS) Elastic
+      Beanstalk, Google App Engine and Heroku.
+       
 *** SaaS - Software as a Service 
-
-    
+    + Cloud application services, SaaS uses the web to deliver
+      applications that are managed by a third-party vendor and whose
+      interface is accessed on the clients’ side.
+    + Most SaaS applications can be run directly from a web browser
+      without any downloads or installations required, although some
+      require plugins.
+    + SaaS Examples: Google Apps, Salesforce, Workday, Concur, Citrix
+      GoToMeeting, Cisco WebEx
 ** Well known Cloud service provider 
    + AWS - Amazon Web Services, Digital Ocean, Microsoft Azure, Google Cloud
 
@@ -159,3 +187,4 @@
 
 * References 
   + https://www.howtoforge.com/how-to-install-owncloud-7-on-ubuntu-14.04
+  + https://apprenda.com/library/paas/iaas-paas-saas-explained-compared/
