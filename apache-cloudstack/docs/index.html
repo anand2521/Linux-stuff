@@ -1,0 +1,1386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>How to set up a private cloud for IaaS</title>
+<!-- 2017-01-07 Sat 12:43 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="./style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="./style/css/override.css" />
+<link rel="icon" type="image/png" href="./style/img/favicon/popl.png" />
+<script type="text/javascript" src="./style/js/org-info.js">
+/**
+ *
+ * @source: ./style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ./style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ./style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "./index.html");
+org_html_manager.set("LINK_UP", "./index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="./index.html"> UP </a>
+ |
+ <a accesskey="H" href="./index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">How to set up a private cloud for IaaS</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. What are we going to learn today ??</a></li>
+<li><a href="#sec-2">2. What do you need ??</a></li>
+<li><a href="#sec-3">3. Introduction to Virtualization ??</a>
+<ul>
+<li><a href="#sec-3-1">3.1. What is Virtualization ??</a></li>
+<li><a href="#sec-3-2">3.2. What is without Virtualization ??</a></li>
+<li><a href="#sec-3-3">3.3. How does Virtulization make Life@DataCentres easy ??</a></li>
+<li><a href="#sec-3-4">3.4. Why Virtualization</a></li>
+<li><a href="#sec-3-5">3.5. Lets understand the difference</a></li>
+<li><a href="#sec-3-6">3.6. Hypervisors - Virtual Machine Monitors</a>
+<ul>
+<li><a href="#sec-3-6-1">3.6.1. Type of hypervisor</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-7">3.7. Types of Virtualization</a>
+<ul>
+<li><a href="#sec-3-7-1">3.7.1. On the basis of activity</a></li>
+<li><a href="#sec-3-7-2">3.7.2. On the basis of operational way</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-8">3.8. Examples Virtualization technologies</a></li>
+<li><a href="#sec-3-9">3.9. Problem Solved &#x2013; No way</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. Introduction to Cloud Computing</a>
+<ul>
+<li><a href="#sec-4-1">4.1. What is Computing ??</a></li>
+<li><a href="#sec-4-2">4.2. What is Cloud ??</a></li>
+<li><a href="#sec-4-3">4.3. What it is not ??</a></li>
+<li><a href="#sec-4-4">4.4. What is Cloud Computing ??</a></li>
+<li><a href="#sec-4-5">4.5. What without Cloud computing ??</a></li>
+<li><a href="#sec-4-6">4.6. Advantages of Cloud computing ??</a></li>
+<li><a href="#sec-4-7">4.7. Three layers of Cloud Computing or three platforms of cloud computing</a>
+<ul>
+<li><a href="#sec-4-7-1">4.7.1. IaaS - Infrastrucuture as a Service</a></li>
+<li><a href="#sec-4-7-2">4.7.2. PaaS - Platform as a Service</a></li>
+<li><a href="#sec-4-7-3">4.7.3. SaaS - Software as a Service</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-8">4.8. Well known Cloud service provider</a></li>
+<li><a href="#sec-4-9">4.9. Types of Cloud</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5. Lets setup our own DropBox - OwnCloud</a></li>
+<li><a href="#sec-6">6. Setting up the Hybrid Cloud</a>
+<ul>
+<li><a href="#sec-6-1">6.1. What do you need ??</a></li>
+<li><a href="#sec-6-2">6.2. A tour to Amazon Web Services</a></li>
+</ul>
+</li>
+<li><a href="#sec-7">7. Lets set our Enterprise Cloud</a>
+<ul>
+<li><a href="#sec-7-1">7.1. What do we need ??</a></li>
+<li><a href="#sec-7-2">7.2. Available Options</a>
+<ul>
+<li><a href="#sec-7-2-1">7.2.1. Openstack</a></li>
+<li><a href="#sec-7-2-2">7.2.2. Apache Cloud stack</a></li>
+<li><a href="#sec-7-2-3">7.2.3. Cloudstack Terminologies</a></li>
+</ul>
+</li>
+<li><a href="#sec-7-3">7.3. Installing Apache Cloudstack on Ubuntu 14.04</a>
+<ul>
+<li><a href="#sec-7-3-1">7.3.1. Setup and configure your virtual machine</a></li>
+<li><a href="#sec-7-3-2">7.3.2. Install necessary packages</a></li>
+<li><a href="#sec-7-3-3">7.3.3. Setitng up Storage NFS</a></li>
+<li><a href="#sec-7-3-4">7.3.4. Initiate a KVM image in storage</a></li>
+<li><a href="#sec-7-3-5">7.3.5. Access Cloudstack GUI and install</a></li>
+<li><a href="#sec-7-3-6">7.3.6. Install Cloudstack agent</a></li>
+<li><a href="#sec-7-3-7">7.3.7. Install and configure KVM</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-8">8. References</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> What are we going to learn today ??</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Basics of Virtualization and Cloud Computing 
+</li>
+<li>Setting up our own Dropbox - The ownCloud
+</li>
+<li>Setting up our on Cloud service 
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> What do you need ??</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>System with atleast 4 GB RAM
+</li>
+<li>Ubuntu 14.04 OS 
+</li>
+<li>Minimum 100 GB of Hard disk 
+</li>
+<li>Basic knowledge working on Ubuntu 14.04 or any linux 
+</li>
+<li>Editor like vim or vi or gedit
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Introduction to Virtualization ??</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> What is Virtualization ??</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Virtualization is a combination of software and hardware
+engineering that creates Virtual Machines (VMs) - an abstraction of
+the computer hardware that allows a single machine to act as if it
+where many machines.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> What is without Virtualization ??</h3>
+<div class="outline-text-3" id="text-3-2">
+
+<div class="figure">
+<p><img src="./diagrams/without-virtualization.png" alt="without-virtualization.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> How does Virtulization make Life@DataCentres easy ??</h3>
+</div>
+
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Why Virtualization</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li>Reduced cost
+</li>
+<li>Easier backup and disaster recovery 
+</li>
+<li>Efficient IT Operations
+</li>
+<li>Less Heat
+</li>
+<li>Easy migrations 
+</li>
+<li>Run multiple difference OS on a single machine 
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Lets understand the difference</h3>
+<div class="outline-text-3" id="text-3-5">
+
+<div class="figure">
+<p><img src="./diagrams/virtualization-diff.png" alt="virtualization-diff.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Hypervisors - Virtual Machine Monitors</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+The hypervisor (also called a virtual machine monitor) is the
+low-level program that allows multiple operating systems to run
+concurrently on a single host computer.
+<img src="./diagrams/hypervisors.jpg" alt="hypervisors.jpg" />
+</p>
+</div>
+<div id="outline-container-sec-3-6-1" class="outline-4">
+<h4 id="sec-3-6-1"><span class="section-number-4">3.6.1</span> Type of hypervisor</h4>
+<div class="outline-text-4" id="text-3-6-1">
+<ul class="org-ul">
+<li>type 1 virtualization - Bare metal or Native Hypervisor 
+</li>
+<li>type 2 virtualization - Hosted Hypervisor
+</li>
+</ul>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">S.No</th>
+<th scope="col" class="left">Bare Metal</th>
+<th scope="col" class="left">OS level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">1</td>
+<td class="left">Directly installed in Hardware</td>
+<td class="left">Installed and runs on host Operating System</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="right">2</td>
+<td class="left">The hypervisor is small as its main task is sharing and</td>
+<td class="left">OS manages the resource allocation</td>
+</tr>
+
+<tr>
+<td class="right">&#xa0;</td>
+<td class="left">managing hardware resources between different operating systems.</td>
+<td class="left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="right">3</td>
+<td class="left">A major advantage is that any problems in one virtual machine</td>
+<td class="left">Independent of VM</td>
+</tr>
+
+<tr>
+<td class="right">&#xa0;</td>
+<td class="left">or guest operating system do not affect the other guest</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="right">&#xa0;</td>
+<td class="left">operating systems running on the hypervisor.</td>
+<td class="left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="right">4</td>
+<td class="left">Any issue in hypervisor will destroy the full VMs running in it</td>
+<td class="left">Any issue with OS will destroy all the VMs</td>
+</tr>
+
+<tr>
+<td class="right">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">hosted on it</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="right">5</td>
+<td class="left">Examples - VMware ESXi Server, Microsoft Hyper-V,</td>
+<td class="left">Examples VMware Workstation,  Microsoft Virtual</td>
+</tr>
+
+<tr>
+<td class="right">&#xa0;</td>
+<td class="left">Citrix/Xen Server</td>
+<td class="left">PC, Oracle Virtual Box</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Types of Virtualization</h3>
+<div class="outline-text-3" id="text-3-7">
+</div><div id="outline-container-sec-3-7-1" class="outline-4">
+<h4 id="sec-3-7-1"><span class="section-number-4">3.7.1</span> On the basis of activity</h4>
+<div class="outline-text-4" id="text-3-7-1">
+<dl class="org-dl">
+<dt> Storage Virtualization  </dt><dd>Your hard disk partition 
+</dd>
+<dt> Compute Virtualization  </dt><dd>Resource partition
+</dd>
+<dt> Network Virtualization  </dt><dd>Interfaces virtulization 
+</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-sec-3-7-2" class="outline-4">
+<h4 id="sec-3-7-2"><span class="section-number-4">3.7.2</span> On the basis of operational way</h4>
+<div class="outline-text-4" id="text-3-7-2">
+<ul class="org-ul">
+<li>VM based virtualization 
+</li>
+<li>Container based Virtualization 
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Examples Virtualization technologies</h3>
+<div class="outline-text-3" id="text-3-8">
+<dl class="org-dl">
+<dt> VM based virtualization </dt><dd>     Citrix, VM Ware, Oracle Virtual Box
+</dd>
+<dt> Container based Virtualization  </dt><dd>     Docker, OpenVZ, LxC
+</dd>
+</dl>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-9" class="outline-3">
+<h3 id="sec-3-9"><span class="section-number-3">3.9</span> Problem Solved &#x2013; No way</h3>
+<div class="outline-text-3" id="text-3-9">
+
+<div class="figure">
+<p><img src="./diagrams/funny-sys-admin.jpg" alt="funny-sys-admin.jpg" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Introduction to Cloud Computing</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> What is Computing ??</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Computing is the process of manipulation/caculation.  2+2 is
+computating/computaiton. That's what computers do.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> What is Cloud ??</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+"The Cloud" or "The Network Cloud" is an IT infrastrucuture sitting
+somewhere which contains compute resources like servers, storage,
+network, memory etc.
+</p>
+
+
+<div class="figure">
+<p><img src="./diagrams/cloud.jpg" alt="cloud.jpg" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> What it is not ??</h3>
+<div class="outline-text-3" id="text-4-3">
+
+<div class="figure">
+<p><img src="./diagrams/cloud-what-it-is-not.png" alt="cloud-what-it-is-not.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> What is Cloud Computing ??</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+Cloud computing is the delivery of computing services—servers,
+storage, databases, networking, software, analytics and more—over
+the Internet (“the cloud”).
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> What without Cloud computing ??</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li>No Google Drives
+</li>
+<li>No Dropbox, Instagram, 
+</li>
+<li>Weak IT Operations -
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6"><span class="section-number-3">4.6</span> Advantages of Cloud computing ??</h3>
+</div>
+
+
+<div id="outline-container-sec-4-7" class="outline-3">
+<h3 id="sec-4-7"><span class="section-number-3">4.7</span> Three layers of Cloud Computing or three platforms of cloud computing</h3>
+<div class="outline-text-3" id="text-4-7">
+</div><div id="outline-container-sec-4-7-1" class="outline-4">
+<h4 id="sec-4-7-1"><span class="section-number-4">4.7.1</span> IaaS - Infrastrucuture as a Service</h4>
+<div class="outline-text-4" id="text-4-7-1">
+<ul class="org-ul">
+<li>Cloud infrastructure services, known as Infrastructure as a
+Service (IaaS), are self-service models for accessing,
+monitoring, and managing remote datacenter infrastructures,
+such as compute (virtualized or bare metal), storage,
+networking, and networking services (e.g. firewalls).
+</li>
+<li>Instead of having to purchase hardware outright, users can
+purchase IaaS based on consumption, similar to electricity or
+other utility billing.
+</li>
+<li>Examples - AWS, Microsoft Azure, Digital Ocean
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-7-2" class="outline-4">
+<h4 id="sec-4-7-2"><span class="section-number-4">4.7.2</span> PaaS - Platform as a Service</h4>
+<div class="outline-text-4" id="text-4-7-2">
+<ul class="org-ul">
+<li>Platform as a service (PaaS) is a cloud computing model that
+delivers applications over the Internet.
+</li>
+<li>In a PaaS model, a cloud provider delivers hardware and software
+tools &#x2013; usually those needed for application development &#x2013; to
+its users as a service.
+</li>
+<li>A PaaS provider hosts the hardware and software on its own
+infrastructure. As a result, PaaS frees users from having to
+install in-house hardware and software to develop or run a new
+application.
+</li>
+<li>Examples - Appear IQ, Mendix, Amazon Web Services (AWS) Elastic
+Beanstalk, Google App Engine and Heroku.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-7-3" class="outline-4">
+<h4 id="sec-4-7-3"><span class="section-number-4">4.7.3</span> SaaS - Software as a Service</h4>
+<div class="outline-text-4" id="text-4-7-3">
+<ul class="org-ul">
+<li>Cloud application services, SaaS uses the web to deliver
+applications that are managed by a third-party vendor and whose
+interface is accessed on the clients’ side.
+</li>
+<li>Most SaaS applications can be run directly from a web browser
+without any downloads or installations required, although some
+require plugins.
+</li>
+<li>SaaS Examples: Google Apps, Salesforce, Workday, Concur, Citrix
+GoToMeeting, Cisco WebEx
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-8" class="outline-3">
+<h3 id="sec-4-8"><span class="section-number-3">4.8</span> Well known Cloud service provider</h3>
+<div class="outline-text-3" id="text-4-8">
+<ul class="org-ul">
+<li>AWS - Amazon Web Services, Digital Ocean, Microsoft Azure, Google Cloud
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-9" class="outline-3">
+<h3 id="sec-4-9"><span class="section-number-3">4.9</span> Types of Cloud</h3>
+<div class="outline-text-3" id="text-4-9">
+<dl class="org-dl">
+<dt> Public Cloud </dt><dd>AWS, Digital Ocean, Microsoft Azure
+</dd>
+<dt> Private Cloud </dt><dd>Enterprise Cloud
+</dd>
+<dt> Hybrid Cloud </dt><dd>Mix of Public and private cloud 
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Lets setup our own DropBox - OwnCloud</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>OwnCloud is a web application that can store and serve content
+from a centralized location, much like Dropbox. 
+</li>
+<li>The difference is that ownCloud 7 allows you to host the serving
+software on your own machines, taking the trust issues out of
+putting your personal data someone else's server.
+</li>
+<li>Install OwnCloud on your local machine 
+<div class="org-src-container">
+
+<pre class="src src-command">cd /tmp
+wget http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_14.04/Release.key
+sudo apt-key add - &lt; Release.key
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_14.04/ /' &gt;&gt; /etc/apt/sources.list.d/owncloud.list"
+sudo apt-get update
+sudo apt-get install owncloud -y
+sudo apt-get install mariadb-server -y
+</pre>
+</div>
+</li>
+<li>Configure your mysql database 
+<div class="org-src-container">
+
+<pre class="src src-command">sudo mysql -u root -p
+CREATE DATABASE owncloud;
+GRANT ALL ON owncloud.* to 'owncloud'@'localhost' IDENTIFIED BY 'database_password';
+exit
+</pre>
+</div>
+</li>
+<li>Access
+<div class="org-src-container">
+
+<pre class="src src-command">http://your-ip/owncloud
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Setting up the Hybrid Cloud</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1"><span class="section-number-3">6.1</span> What do you need ??</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>Credit Card - Money 
+</li>
+<li>Knowledge on using public cloud 
+</li>
+<li>Decision on using one of the Public Cloud service provider.
+</li>
+<li>Active Internet connection.
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> A tour to Amazon Web Services</h3>
+</div>
+</div>
+
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Lets set our Enterprise Cloud</h2>
+<div class="outline-text-2" id="text-7">
+</div><div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> What do we need ??</h3>
+<div class="outline-text-3" id="text-7-1">
+<ul class="org-ul">
+<li>A machine with below given configurations -
+<div class="org-src-container">
+
+<pre class="src src-command">Operating system - Ubuntu 14.04 ( any Linux, recommended - Ubutnu 14.04 / CentOS 6.X or 7 )
+RAM - Minimum of 4 GB, recommended 8 GB
+Hard disk - Minimum of 250 GB, recommended 500 GB
+Active Internet Connection
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2"><span class="section-number-3">7.2</span> Available Options</h3>
+<div class="outline-text-3" id="text-7-2">
+</div><div id="outline-container-sec-7-2-1" class="outline-4">
+<h4 id="sec-7-2-1"><span class="section-number-4">7.2.1</span> Openstack</h4>
+</div>
+<div id="outline-container-sec-7-2-2" class="outline-4">
+<h4 id="sec-7-2-2"><span class="section-number-4">7.2.2</span> Apache Cloud stack</h4>
+<div class="outline-text-4" id="text-7-2-2">
+<ul class="org-ul">
+<li>Apache CloudStack is open source software designed to deploy and manage large networks 
+ of virtual machines, as a highly available, highly scalable Infrastructure as a Service (IaaS) cloud computing platform
+<img src="./diagrams/cloud-architecture.png" alt="cloud-architecture.png" />    
+</li>
+<li id="Features"><ul class="org-ul">
+<li>Users can manage their cloud with an easy to use Web interface, command line tools,
+and/or a full-featured RESTful API. 
+</li>
+<li>CloudStack provides an API that's compatible with AWS EC2 and S3 for organizations
+that wish to deploy hybrid clouds.    
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-2-3" class="outline-4">
+<h4 id="sec-7-2-3"><span class="section-number-4">7.2.3</span> Cloudstack Terminologies</h4>
+<div class="outline-text-4" id="text-7-2-3">
+
+<div class="figure">
+<p><img src="./diagrams/region-overview.png" alt="region-overview.png" />
+</p>
+</div>
+<dl class="org-dl">
+<dt> Regions </dt><dd><ul class="org-ul">
+<li>A region is the largest available organizational unit within a CloudStack deployment. 
+</li>
+<li>A region is made up of several availability zones, where each zone is roughly equivalent to a datacenter
+</li>
+</ul>
+</dd>
+<dt> Zones </dt><dd><ul class="org-ul">
+<li>A zone typically corresponds to a single datacenter, although it is permissible to have multiple zones in a datacenter.
+</li>
+</ul>
+</dd>
+<dt> Pods </dt><dd><ul class="org-ul">
+<li>A pod often represents a single rack.
+</li>
+</ul>
+</dd>
+<dt> Clusters </dt><dd><ul class="org-ul">
+<li>A cluster provides a way to gro
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-7-3" class="outline-3">
+<h3 id="sec-7-3"><span class="section-number-3">7.3</span> Installing Apache Cloudstack on Ubuntu 14.04</h3>
+<div class="outline-text-3" id="text-7-3">
+</div><div id="outline-container-sec-7-3-1" class="outline-4">
+<h4 id="sec-7-3-1"><span class="section-number-4">7.3.1</span> Setup and configure your virtual machine</h4>
+<div class="outline-text-4" id="text-7-3-1">
+<ul class="org-ul">
+<li>Create a Ubuntu 14.04 virtual machine in Oracle Virtual Box 
+</li>
+<li>Setup the interface files 
+<div class="org-src-container">
+
+<pre class="src src-command">vim /etc/network/interfaces
+</pre>
+</div>
+</li>
+<li>Write the following configuration in your /etc/network/interfaces file 
+<div class="org-src-container">
+
+<pre class="src src-command">auto lo
+iface lo intet loopback 
+
+auto eth0
+iface eth0 inet static
+       address 192.168.56.10
+       netmask 255.255.255.0
+
+auto eth1
+iface eth1 inet dhcp
+</pre>
+</div>
+</li>
+<li>Turn off your your Virtual Machine
+</li>
+<li>Go to File&#x2013;&gt;Preferences&#x2013;&gt;Network&#x2013;&gt;Host only Networks 
+</li>
+<li>Click on the + symbol and create a "Host only Adapter"
+</li>
+<li>Double click on the "host only Adapter" you created just now 
+</li>
+<li>Give 
+<div class="org-src-container">
+
+<pre class="src src-command">IPv4 Address as - 192.168.56.1
+Network Mask - 255.255.255.0
+</pre>
+</div>
+</li>
+<li>Click Settings&#x2013;&gt;Network&#x2013;&gt;Adapter 1
+</li>
+<li>Select Host only Adapter from the Drop down and select your "Host
+Only Adapter" name.
+</li>
+<li>Select Adapter Type to "Paravirtualized Network"
+</li>
+<li>Allow Premiscuos mode 
+</li>
+<li>Check on "Cable Connected" 
+</li>
+<li>Click on "Adapter 2"
+</li>
+<li>Select NAT and click OK.
+</li>
+<li>Start your Virtual Machine 
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-7-3-2" class="outline-4">
+<h4 id="sec-7-3-2"><span class="section-number-4">7.3.2</span> Install necessary packages</h4>
+<div class="outline-text-4" id="text-7-3-2">
+<ul class="org-ul">
+<li>Update sources list 
+<div class="org-src-container">
+
+<pre class="src src-command">sudo apt-get update
+</pre>
+</div>
+</li>
+<li>Add source repository to sources list
+<div class="org-src-container">
+
+<pre class="src src-command">sudo vim /etc/apt/sources.list.d/cloudstack.list
+</pre>
+</div>
+</li>
+<li>Write the deb package URL in this file 
+<div class="org-src-container">
+
+<pre class="src src-command">deb http://cloudstack.apt-get.eu/ubuntu precise 4.4
+</pre>
+</div>
+</li>
+<li>Become root user
+<div class="org-src-container">
+
+<pre class="src src-command">sudo su -
+</pre>
+</div>
+</li>
+<li>Download the sources using wget command 
+<div class="org-src-container">
+
+<pre class="src src-command">wget -O - http://cloudstack.apt-get.eu/release.asc | apt-key add -
+</pre>
+</div>
+</li>
+<li>Update 
+<div class="org-src-container">
+
+<pre class="src src-command">apt-get update
+</pre>
+</div>
+</li>
+<li>Install Cloudstack management 
+<div class="org-src-container">
+
+<pre class="src src-command">apt-get  install cloudstack-management
+</pre>
+</div>
+</li>
+<li>Install MySQL server 
+<div class="org-src-container">
+
+<pre class="src src-command">apt-get install mysql-server
+</pre>
+</div>
+</li>
+<li>Open file /etc/mysql/my.cnf 
+<div class="org-src-container">
+
+<pre class="src src-command">[mysqld]
+innodb_rollback_on_timeout=1
+innodb_lock_wait_timeout=600
+max_connection=350
+log-bin=mysql-bin
+binlog-format = 'ROW'
+</pre>
+</div>
+</li>
+<li>Restart mysql service 
+<div class="org-src-container">
+
+<pre class="src src-command">service mysql restart
+</pre>
+</div>
+</li>
+<li>Configure mysql 
+<div class="org-src-container">
+
+<pre class="src src-command">mysql_secure_installation
+</pre>
+</div>
+</li>
+<li>Setup the Cloudstack database
+<pre class="example">
+cloudstack-setup-databases cloud:&lt;your-password&gt;@localhost --deploy-as=root:&lt;your-password&gt; -i 192.168.56.10
+</pre>
+</li>
+<li>Run cloudstack management 
+<div class="org-src-container">
+
+<pre class="src src-command">sudo cloudstack-setup-management
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-7-3-3" class="outline-4">
+<h4 id="sec-7-3-3"><span class="section-number-4">7.3.3</span> Setitng up Storage NFS</h4>
+<div class="outline-text-4" id="text-7-3-3">
+<ul class="org-ul">
+<li>Create directory
+<div class="org-src-container">
+
+<pre class="src src-command">sudo mkdir -p /export/primary 
+sudo mkdir -p /export/secondary
+</pre>
+</div>
+</li>
+<li>Install NFS-Kernel-server
+<div class="org-src-container">
+
+<pre class="src src-command">sudo apt-get install nfs-kernel-server
+</pre>
+</div>
+</li>
+<li>Open file  /etc/exports
+<div class="org-src-container">
+
+<pre class="src src-command">sudo vim /etc/exports
+/export *(rw,async,no_root_squash,no_subtree_check)
+</pre>
+</div>
+</li>
+<li>Install NFS common
+<div class="org-src-container">
+
+<pre class="src src-command">sudo apt-get install nfs-common
+</pre>
+</div>
+</li>
+<li>Comfigure nfs-common
+<div class="org-src-container">
+
+<pre class="src src-command">sudo vim /etc/default/nfs-common 
+STATDOPTS="--port 662 --outgoing-port  2020
+NEED_STATD=yes
+</pre>
+</div>
+</li>
+<li>Configure modprob lock 
+<div class="org-src-container">
+
+<pre class="src src-command">sudo vim /etc/modprobe.d/lockd.conf
+options lockd nlm_udpport=32769 nlm_tcpport=32803
+</pre>
+</div>
+</li>
+<li>Restart NFS service 
+<pre class="example">
+service nfs-kernel-server restart
+</pre>
+</li>
+<li>Check your mounts using show mount
+<div class="org-src-container">
+
+<pre class="src src-command">showmount -e 127.0.0.1
+</pre>
+</div>
+</li>
+<li>Create directories in <i>mnt</i>
+<div class="org-src-container">
+
+<pre class="src src-command">sudo mkdir -p /mnt/primary
+sudo mkdir -p /mnt/secondary
+</pre>
+</div>
+</li>
+<li>Add mount points in /etc/fstab
+<div class="org-src-container">
+
+<pre class="src src-command">sudo vim /etc/fstab
+</pre>
+</div>
+</li>
+<li>Add the following lines 
+<div class="org-src-container">
+
+<pre class="src src-command">192.168.56.10:/export/primary    /mnt/primary   nfs  rsize=8192,timeo=14,intr,vers=3,noauto   0   2 
+192.168.56.10:/export/secondary    /mnt/secondary   nfs  rsize=8192,timeo=14,intr,vers=3,noauto   0   2
+</pre>
+</div>
+</li>
+<li>Mount the folder/partitions
+<div class="org-src-container">
+
+<pre class="src src-command">sudo mount /mnt/primary
+sudo mount /mnt/secondary
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-7-3-4" class="outline-4">
+<h4 id="sec-7-3-4"><span class="section-number-4">7.3.4</span> Initiate a KVM image in storage</h4>
+<div class="outline-text-4" id="text-7-3-4">
+<ul class="org-ul">
+<li>Configure cloudstack to point to the storage space and download one
+<div class="org-src-container">
+
+<pre class="src src-command">sudo /usr/share/cloudstack-common/scripts/storage/secondary/cloud-install-sys-tmplt -m /mnt/secondary -u http://cloudstack.apt-get.eu/systemvm/4.4/systemvm64template-4.4.1-7-kvm.qcow2.bz2 -h kvm -F
+</pre>
+</div>
+</li>
+<li>Start cloudstck service 
+<div class="org-src-container">
+
+<pre class="src src-command">sudo service cloudstack-management start
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-7-3-5" class="outline-4">
+<h4 id="sec-7-3-5"><span class="section-number-4">7.3.5</span> Access Cloudstack GUI and install</h4>
+<div class="outline-text-4" id="text-7-3-5">
+<ul class="org-ul">
+<li>Access cloudstack GUI using Web browser
+<div class="org-src-container">
+
+<pre class="src src-command">URL - http://&lt;your-ip&gt;:8080/client
+</pre>
+</div>
+</li>
+<li>Provide username and password default is (admin,password)
+</li>
+<li>Change your password 
+</li>
+<li>Add Zone 
+<div class="org-src-container">
+
+<pre class="src src-command">Name   : czone
+DNS 1  : 192.168.56.1
+Internal  DNS 1 : 192.168.56.1
+</pre>
+</div>
+</li>
+<li>Add Pod
+<div class="org-src-container">
+
+<pre class="src src-command">Name : cpod
+Gateway : 192.168.56.1
+Netmask 255.255.255.0  
+IP Range - 192.168.56.160 to 192.168.56.169
+</pre>
+</div>
+</li>
+<li>Add guest network 
+<div class="org-src-container">
+
+<pre class="src src-command">Gateway : 192.168.56.1
+Netmask : 255.255.255.0
+IP Range : 192.168.56.170 to 192.168.56.230
+</pre>
+</div>
+</li>
+<li>Add Cluster 
+<div class="org-src-container">
+
+<pre class="src src-command">Hypervisor : KVM
+Name : ccluster
+</pre>
+</div>
+</li>
+<li>Add host
+<div class="org-src-container">
+
+<pre class="src src-command">Name : csmgmt
+Username : root
+Password :
+</pre>
+</div>
+</li>
+<li>Add Primary storage 
+<div class="org-src-container">
+
+<pre class="src src-command">Name : cprimary
+Protocol : NFS
+Scope : Cluster
+Server : 192.168.56.10
+Path : /export/primary
+</pre>
+</div>
+</li>
+<li>Add Secondary storage
+<div class="org-src-container">
+
+<pre class="src src-command">NFS Server : 192.168.56.10
+Provider : NFS
+Path : /export/secondary
+</pre>
+</div>
+</li>
+<li>Click Launch 
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-7-3-6" class="outline-4">
+<h4 id="sec-7-3-6"><span class="section-number-4">7.3.6</span> Install Cloudstack agent</h4>
+<div class="outline-text-4" id="text-7-3-6">
+<div class="org-src-container">
+
+<pre class="src src-command">sudo apt-get install cloudstack-agent
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-7-3-7" class="outline-4">
+<h4 id="sec-7-3-7"><span class="section-number-4">7.3.7</span> Install and configure KVM</h4>
+<div class="outline-text-4" id="text-7-3-7">
+<ul class="org-ul">
+<li>Installation
+<div class="org-src-container">
+
+<pre class="src src-command">sudo apt-get install qemu-kvm
+</pre>
+</div>
+</li>
+<li>Configure 
+<div class="org-src-container">
+
+<pre class="src src-command">sudo vim /etc/libvirt/qemu.conf
+Uncomment &lt;vmc_listen = "0.0.0.0"&gt;
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-command">sudo vim /etc/libvirt/libvirtd.conf
+Uncomment &lt;listen_tls = 0&gt;
+Uncomment &lt;listen_tcp = 1&gt;
+tcp_port = "16509"
+mdns_adv = 0
+auth_tcp = "none"
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-command">sudo vim /etc/default/libvirt-bin
+libvirtd_opts="-d  -l"
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-command">sudo ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/
+sudo ln -s /etc/apparmor.d/usr.lib.libvirt.virt-aa-helper /etc/apparmor.d/disable/
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-command">sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.libvirtd
+sudo apparmor_parser -R /etc/apparmor.d/usr.lib.libvirt.virt-aa-helper
+</pre>
+</div>
+</li>
+
+<li>Restart libvirt service 
+<div class="org-src-container">
+
+<pre class="src src-command">sudo service libvirt-bin restart
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-command">sudo ufw allow proto tcp from any to any port 22
+sudo ufw allow proto tcp from any to any port 1798
+sudo ufw allow proto tcp from any to any port 16509
+sudo ufw allow proto tcp from any to any port 5900:6100
+sudo ufw allow proto tcp from any to any port 49152:49216
+</pre>
+</div>
+</li>
+
+<li>Reboot your machine 
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> References</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li><a href="https://www.howtoforge.com/how-to-install-owncloud-7-on-ubuntu-14.04">https://www.howtoforge.com/how-to-install-owncloud-7-on-ubuntu-14.04</a>
+</li>
+<li><a href="https://apprenda.com/library/paas/iaas-paas-saas-explained-compared/">https://apprenda.com/library/paas/iaas-paas-saas-explained-compared/</a>
+</li>
+<li><a href="https://cloudstack.apache.org/">https://cloudstack.apache.org/</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">[2017-01-05  Fri]</span></span></p>
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-01-07 Sat 12:43</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

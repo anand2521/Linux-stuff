@@ -54,7 +54,7 @@
   The hypervisor (also called a virtual machine monitor) is the
   low-level program that allows multiple operating systems to run
   concurrently on a single host computer.
-
+  [[./diagrams/hypervisors.jpg]]
 *** Type of hypervisor
    + type 1 virtualization - Bare metal or Native Hypervisor 
    + type 2 virtualization - Hosted Hypervisor
@@ -78,21 +78,17 @@
    |      | Citrix/Xen Server                                                | PC, Oracle Virtual Box                          |
    |------+------------------------------------------------------------------+-------------------------------------------------|
   
-   
-            
-          
-   
-
+  
    
 ** Types of Virtualization
 *** On the basis of activity 
-   + Storage Virtualization 
-   + Compute Virtualization 
-   + Network Virtualization 
+   + Storage Virtualization  :: Your hard disk partition 
+   + Compute Virtualization  :: Resource partition
+   + Network Virtualization  :: Interfaces virtulization 
 
 *** On the basis of operational way
-   + VM based virtualization
-   + Container based Virtualization
+   + VM based virtualization 
+   + Container based Virtualization 
 
 
 ** Examples Virtualization technologies  
@@ -176,6 +172,7 @@
     + SaaS Examples: Google Apps, Salesforce, Workday, Concur, Citrix
       GoToMeeting, Cisco WebEx
 
+
 ** Well known Cloud service provider 
    + AWS - Amazon Web Services, Digital Ocean, Microsoft Azure, Google Cloud
 
@@ -224,11 +221,12 @@
    + Decision on using one of the Public Cloud service provider.
    + Active Internet connection.
 
+
 ** A tour to Amazon Web Services  
 
 
 * Lets set our Enterprise Cloud 
-
+  
 ** What do we need ??
    + A machine with below given configurations -
      #+BEGIN_SRC command
@@ -238,11 +236,29 @@
      Active Internet Connection 
      #+END_SRC
 
-
+     
 ** Available Options 
-   + Openstack 
-   + Apache Cloud stack 
-
+*** Openstack 
+*** Apache Cloud stack 
+    + Apache CloudStack is open source software designed to deploy and manage large networks 
+      of virtual machines, as a highly available, highly scalable Infrastructure as a Service (IaaS) cloud computing platform
+     [[./diagrams/cloud-architecture.png]]    
+    + Features ::
+     + Users can manage their cloud with an easy to use Web interface, command line tools,
+       and/or a full-featured RESTful API. 
+     + CloudStack provides an API that's compatible with AWS EC2 and S3 for organizations
+       that wish to deploy hybrid clouds.    
+*** Cloudstack Terminologies
+    [[./diagrams/region-overview.png]]
+    + Regions ::
+      + A region is the largest available organizational unit within a CloudStack deployment. 
+      + A region is made up of several availability zones, where each zone is roughly equivalent to a datacenter
+    + Zones ::
+      + A zone typically corresponds to a single datacenter, although it is permissible to have multiple zones in a datacenter.
+    + Pods ::
+      + A pod often represents a single rack.
+    + Clusters ::
+      + A cluster provides a way to gro
 
 ** Installing Apache Cloudstack on Ubuntu 14.04 
 
@@ -523,7 +539,8 @@
 
     + Reboot your machine 
 
+
 * References 
   + https://www.howtoforge.com/how-to-install-owncloud-7-on-ubuntu-14.04
   + https://apprenda.com/library/paas/iaas-paas-saas-explained-compared/
-  
+  + https://cloudstack.apache.org/
