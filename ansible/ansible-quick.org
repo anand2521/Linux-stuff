@@ -13,6 +13,9 @@
 + We teel ansible the desired state and Ansible based on the context will decide if needs to make a change.
 
 
+* Ansible cfg file 
+  /etc/ansible/ansible.cfg
+
 * Inventory
 
 + This is a collection/list of servers you want ansible to work on. 
@@ -93,8 +96,75 @@
    In above playbook, there is a task to add nginx repo. If it
    succeeds, then it registers it to ppastable. When the next task is taken
    to install nginx, the success event of task with regitery =ppastable= is checked.
+* Roles    
    
-   
+Note::
+With multiple tasks inside a playbook, a playbook can become difficult to manage 
+and there are no scope connects. 
+Based on the learning above, we have following important sections in an ansible action -
++ files 
++ handlers
++ meta information
++ templates
++ tasks 
++ vars 
+
+Each of the above can beocme a sirectory haing a main.yml file in them. the complete 
+structure then is referred to as a role.  A role will have similiars tasks under its hood 
+and is managed by seperating all the components used in the ansible playbook.
 
 
+** Handlers directory 
+Put all your handlers for nginx ansible in handlers/main.yml 
+#+BEGIN_SRC
+---
+- name: Start Nginx 
+  service: name=nginx state=started
+
+- name: Reload Nginx 
+  service: name=nginx state=reloaded
+#+END_SRC
+ 
+The above can be referenced from a central main file when required.
+
+** Templates 
+   See a sample templated file which is generally based on Python Jinja 
+   templates/nginx-config.conf
+   #+BEGIN_SRC
+   server {
+	listen 80 default_server;
+        server_name *.{{ '{{' }} domain {{ '}}' }};
+        return 301 https://{{ '{{' }} domain '}}' }}$request_uri;
+   }
+   server {
+	listen 443 default_server ssl;
+        root /var/www/{{ '{{' }} domain {{ '}}'/public;
+        index index.html index.htm index.php
+   
+
+   #+END_SRC
+
+
+* Variables 
+  vars/main.yml 
+  #+BEGIN_SRC
+  ---
+  domain: something.com
+  ssl_key: /etc/ssl/sfh/sfh.key
+  server_name: someone.something.com
+  #+END_SRC
+
+
+
+* Running a role 
++ Edit =roles_path= variable in ansible.cfg file say it to /home/user/ansible/roles 
++ save your nginx role in /home/user/ansible/roles/nginx 
++ Create a master yaml file 
+  #+BEGIN_SRC
+  --- 
+  - hosts: all 
+    roles:
+     - nginx 
+  #+END_SRC  
+  where nginx is the name of your role and is a directory in roles_path
 
