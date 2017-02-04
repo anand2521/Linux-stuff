@@ -68,7 +68,32 @@
        service: name=nginx state =installed 
   #+END_SRC
  
-  
+* When 
++ This is to add condition in ansible task execution.
++ Register an event, check its success using when. If not, then that specific task is skipped. 
++ Sample 
+  #+BEGIN_SRC
+  ---
+  - hosts: local 
+    vars:
+     - docroot: /var/www/serversforhackers.com/public
+    tasks:
+     - name: Add Nginx repository 
+       apt_repository: repo='ppa:nginx/stable' state=present
+       register: ppastable 
+
+     - name: Install Nginx 
+       apt: pkg=installed state=installed update_cache=true
+       when: ppastable|success
+       register: nginxinstalled  
+       notify: 
+        - Start Nginx 
+  #+END_SRC
+
+   In above playbook, there is a task to add nginx repo. If it
+   succeeds, then it registers it to ppastable. When the next task is taken
+   to install nginx, the success event of task with regitery =ppastable= is checked.
+   
    
 
 
