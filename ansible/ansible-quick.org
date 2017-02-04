@@ -168,3 +168,36 @@ The above can be referenced from a central main file when required.
   #+END_SRC  
   where nginx is the name of your role and is a directory in roles_path
 
+
+* Install multiple packages using one apt
++ Using =with_items=, one can mention a list of pakacges to be installed. 
+
+#+BEGIN_SRC
+- name: install default packages
+   apt: pkg={{ item }} state=installed 
+   with_items:
+     - aptitude
+     - vim 
+     - supervisor
+#+END_SRC
+
++ Simple modules usages in the below given sample playbooks 
+  #+BEGIN_SRC
+  ---
+   - name: create directroy under /home/aashay
+     file: path=/home/aashay/test-dir state=directory mode=755
+
+   - name: Git checkout from github 
+     git: repo=https://github.com/ashay-maheshwari/Linux-stuff.git 
+          dest=/home/aashay/.test-dir
+  
+   - name: Drop config fro supervisord into conf.d directory
+     copy: src=supervisor-test-.conf dest=/etc/supervisor/conf.d/supervisor-test.conf
+
+  #+END_SRC  
+
+
+
+* References
++ https://blog.josephkahn.io/articles/ansible-modules/
++ http://tomoconnor.eu/blogish/part-3-ansible-and-amazon-web-services/#.WJXFMGdv_Dd
