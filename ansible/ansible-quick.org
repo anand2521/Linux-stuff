@@ -1,0 +1,75 @@
+#+Title: Points to quickly revise ansible 
+#+Author: Ashay Maheshwari
+
+
+* Ansbible 
+
++ Configuration management automation tool 
++ Ansible needs SSH access to the systems you need to target. 
++ Uses SSH to connect to remote machines desired to be controlled and configured
++ Gets context of machine on which action is to be performed. 
++ Context means - System and state information 
++ Do not make any change if context does not need it 
++ We teel ansible the desired state and Ansible based on the context will decide if needs to make a change.
+
+
+* Inventory
+
++ This is a collection/list of servers you want ansible to work on. 
++ It is generally a file which contains the hostname or IP of the machine.
++ Default location is =/etc/ansible/hosts
+
+
+* Simple adhoc commands -
+
++ Command below will ping all the ansible hosts listed in the inventory file.
+  #+BEGIN_SRC
+  ansible all  -m ping 
+  #+END_SRC
+
++ command with more flags 
+  #+BEGIN_SRC
+  ansible all -m ping -s -k -u vagrant 
+  #+END_SRC
+  -m for module 
+  -s for sudo
+  -k for ask password 
+  -u use vagrant as a username in remote machines 
+
+* Playbooks
++ This is a script way of using Ansible, where tasks to be executed are written in a file in YAML format
++ Sample playbook is written below -
+  #+BEGIN_SRC
+  ---
+  - hosts: local 
+    tasks:
+      - name: Install Nginx 
+        apt: pkg=nginx state=installed 
+
+
+  #+END_SRC
+
+ 
+* Handlers
++ Handlers are events which runs/executes if something happens or say an event occurs 
++ Handlers are called by some other tasks. If task does not execute, handlers are skipped.
++ Sample Handler to start nginx service if nginx is installed 
+  #+BEGIN_SRC
+  ---
+  - hosts: local
+    tasks:
+     - name: Install nginx 
+       apt: pkg=nginx state=installed
+       notify:
+        -  Start Nginx 
+
+    handlers:
+     - name: Start Nginx 
+       service: name=nginx state =installed 
+  #+END_SRC
+ 
+  
+   
+
+
+
